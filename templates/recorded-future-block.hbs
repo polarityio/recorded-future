@@ -1,0 +1,69 @@
+<div>
+    <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
+    <div>
+        <h1 class="p-title">
+            Risks
+        </h1>
+        <div>
+            <span class="p-key">Criticality</span>
+            <span class="p-value">{{details.risk.criticalityLabel}}</span>
+        </div>
+        <div>
+            <span class="p-key">Rules Summary</span>
+            <span class="p-value">{{details.risk.riskSummary}}</span>
+        </div>
+        <div>
+            <span class="p-key">Score</span>
+            <span class="p-value">{{details.risk.score}}</span>
+        </div>
+    </div>
+
+    <div>
+        <h1 class="p-title">
+            Risk Details
+        </h1>
+        {{#each details.risk.evidenceDetails as |evidence|}}
+        <div>
+            <div class="p-key">{{evidence.rule}}</div>
+            <div class="p-value">{{evidence.evidenceString}}</div>
+        </div>
+        <br />
+        {{/each}}
+    </div>
+
+    <h1 class="p-title">
+        Location
+    </h1>
+    <div>
+        <span class="p-key">Country</span>
+        <span class="p-value">{{details.location.location.country}}</span>
+    </div>
+    <div>
+        <span class="p-key">City</span>
+        <span class="p-value">{{details.location.location.city}}</span>
+    </div>
+    <div>
+        <span class="p-key">Organization</span>
+        <span class="p-value">{{details.location.organization}}</span>
+    </div>
+
+    <div>
+        <h1 class="p-title">
+            Sightings
+        </h1>
+        {{#each details.sightings as |sighting|}}
+        <div>
+            <span class="p-key">Title</span>
+            <span class="p-value">{{sighting.title}}</span>
+        </div>
+        <div>
+            <span class="p-key">Source</span>
+            <span class="p-value">{{sighting.source}}</span>
+        </div>
+
+        <a class="p-link" href="{{sighting.url}}">View source</a>
+        <br />
+        <br />
+        {{/each}}
+    </div>
+</div>

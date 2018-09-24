@@ -1,0 +1,1628 @@
+{
+    "data": {
+        "threatLists": [
+            {
+                "id": "report:OtiCOp",
+                "name": "Abuse.ch: Feodo IP Blocklist",
+                "type": "EntityList",
+                "description": "The Feodo Tracker Feodo IP Blocklist contains IP addresses (IPv4) used as C&C communication channel by the Feodo Trojan. This lists contains two types of IP address: Feodo C&C servers used by version A, version C and version D of the Feodo Trojan (these IP addresses are usually compromised servers running an nginx daemon on port 8080 TCP or 7779 TCP that is acting as proxy, forwarding all traffic to a tier 2 proxy node) and Feodo C&C servers used by version B which are usually used for the exclusive purpose of hosting a Feodo C&C server.<br /><br />For more information, see feodotracker.abuse.ch/blocklist"
+            }
+        ],
+        "relatedEntities": [
+            {
+                "type": "RelatedMalwareCategory",
+                "entities": [
+                    {
+                        "count": 8,
+                        "entity": {
+                            "id": "0efpT",
+                            "name": "Trojan",
+                            "type": "MalwareCategory"
+                        }
+                    },
+                    {
+                        "count": 8,
+                        "entity": {
+                            "id": "J31vQ6",
+                            "name": "Banking Trojan",
+                            "type": "MalwareCategory"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "0edUR",
+                            "name": "Botnet",
+                            "type": "MalwareCategory"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedHash",
+                "entities": [
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "hash:03c74d538572c89a8cc1cfa586fe94e8ff0b18cd24b9503ed5854a351968ee0c",
+                            "name": "03c74d538572c89a8cc1cfa586fe94e8ff0b18cd24b9503ed5854a351968ee0c",
+                            "type": "Hash"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "hash:6e5aeba3622ca0f1dac16ea7e11b721ded900f909d5e5eb885a516b8ec679193",
+                            "name": "6e5aeba3622ca0f1dac16ea7e11b721ded900f909d5e5eb885a516b8ec679193",
+                            "type": "Hash"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "hash:8a0e3f0e5f14cbbe87238a3dc529bbad4c4bfd429830ed2865f461f5e4515c8f",
+                            "name": "8a0e3f0e5f14cbbe87238a3dc529bbad4c4bfd429830ed2865f461f5e4515c8f",
+                            "type": "Hash"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "hash:bac7bc52812bc63745d4c5904d18e1581e4f0c821b4cf8336c8dd8eab86385ff",
+                            "name": "bac7bc52812bc63745d4c5904d18e1581e4f0c821b4cf8336c8dd8eab86385ff",
+                            "type": "Hash"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedIpAddress",
+                "entities": [
+                    {
+                        "count": 7,
+                        "entity": {
+                            "id": "ip:104.227.137.34",
+                            "name": "104.227.137.34",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 7,
+                        "entity": {
+                            "id": "ip:119.82.27.246",
+                            "name": "119.82.27.246",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:137.74.254.64",
+                            "name": "137.74.254.64",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:173.230.136.67",
+                            "name": "173.230.136.67",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:194.88.246.7",
+                            "name": "194.88.246.7",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:206.214.220.79",
+                            "name": "206.214.220.79",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:212.83.166.45",
+                            "name": "212.83.166.45",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 6,
+                        "entity": {
+                            "id": "ip:85.143.221.180",
+                            "name": "85.143.221.180",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 4,
+                        "entity": {
+                            "id": "ip:173.224.218.25",
+                            "name": "173.224.218.25",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 4,
+                        "entity": {
+                            "id": "ip:188.165.220.214",
+                            "name": "188.165.220.214",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 3,
+                        "entity": {
+                            "id": "ip:109.74.204.70",
+                            "name": "109.74.204.70",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 3,
+                        "entity": {
+                            "id": "ip:115.28.0.193",
+                            "name": "115.28.0.193",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "ip:144.76.79.43",
+                            "name": "144.76.79.43",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "ip:192.241.151.140",
+                            "name": "192.241.151.140",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "ip:192.99.38.200",
+                            "name": "192.99.38.200",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "ip:87.106.149.74",
+                            "name": "87.106.149.74",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:1.178.179.217",
+                            "name": "1.178.179.217",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:1.179.170.7",
+                            "name": "1.179.170.7",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:1.93.0.224",
+                            "name": "1.93.0.224",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:101.187.28.8",
+                            "name": "101.187.28.8",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:101.200.81.187",
+                            "name": "101.200.81.187",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.13.29.158",
+                            "name": "103.13.29.158",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.16.131.20",
+                            "name": "103.16.131.20",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.16.26.228",
+                            "name": "103.16.26.228",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.16.26.36",
+                            "name": "103.16.26.36",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.19.89.118",
+                            "name": "103.19.89.118",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.219.22.63",
+                            "name": "103.219.22.63",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.224.83.130",
+                            "name": "103.224.83.130",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.228.200.37",
+                            "name": "103.228.200.37",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.228.200.44",
+                            "name": "103.228.200.44",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.23.154.184",
+                            "name": "103.23.154.184",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.230.189.210",
+                            "name": "103.230.189.210",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.230.84.239",
+                            "name": "103.230.84.239",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.233.58.6",
+                            "name": "103.233.58.6",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.245.153.151",
+                            "name": "103.245.153.151",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.245.153.154",
+                            "name": "103.245.153.154",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.245.153.65",
+                            "name": "103.245.153.65",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.245.153.70",
+                            "name": "103.245.153.70",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.251.90.43",
+                            "name": "103.251.90.43",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.252.100.44",
+                            "name": "103.252.100.44",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.4.18.170",
+                            "name": "103.4.18.170",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.4.52.150",
+                            "name": "103.4.52.150",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.6.212.221",
+                            "name": "103.6.212.221",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:103.7.59.135",
+                            "name": "103.7.59.135",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.130.169.84",
+                            "name": "104.130.169.84",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.130.204.251",
+                            "name": "104.130.204.251",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.128.208",
+                            "name": "104.131.128.208",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.187.88",
+                            "name": "104.131.187.88",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.35.60",
+                            "name": "104.131.35.60",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.50.79",
+                            "name": "104.131.50.79",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.59.185",
+                            "name": "104.131.59.185",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.131.89.74",
+                            "name": "104.131.89.74",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.140.247.125",
+                            "name": "104.140.247.125",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.153.0.227",
+                            "name": "104.153.0.227",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.156.53.91",
+                            "name": "104.156.53.91",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.200.67.136",
+                            "name": "104.200.67.136",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.224.128.163",
+                            "name": "104.224.128.163",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.227.137.35",
+                            "name": "104.227.137.35",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.227.137.43",
+                            "name": "104.227.137.43",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.109.186",
+                            "name": "104.236.109.186",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.172.37",
+                            "name": "104.236.172.37",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.181.85",
+                            "name": "104.236.181.85",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.252.178",
+                            "name": "104.236.252.178",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.49.165",
+                            "name": "104.236.49.165",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.236.94.91",
+                            "name": "104.236.94.91",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.238.119.132",
+                            "name": "104.238.119.132",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.238.158.106",
+                            "name": "104.238.158.106",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.238.174.49",
+                            "name": "104.238.174.49",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:104.36.84.105",
+                            "name": "104.36.84.105",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:105.208.85.130",
+                            "name": "105.208.85.130",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:105.208.86.197",
+                            "name": "105.208.86.197",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:105.228.39.7",
+                            "name": "105.228.39.7",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:105.229.233.247",
+                            "name": "105.229.233.247",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:106.187.38.36",
+                            "name": "106.187.38.36",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:106.187.49.59",
+                            "name": "106.187.49.59",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:106.187.91.235",
+                            "name": "106.187.91.235",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.161.160.30",
+                            "name": "107.161.160.30",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.0.14",
+                            "name": "107.170.0.14",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.1.205",
+                            "name": "107.170.1.205",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.101.158",
+                            "name": "107.170.101.158",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.146.72",
+                            "name": "107.170.146.72",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.177.153",
+                            "name": "107.170.177.153",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.231.118",
+                            "name": "107.170.231.118",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.237.112",
+                            "name": "107.170.237.112",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.4.194",
+                            "name": "107.170.4.194",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.40.86",
+                            "name": "107.170.40.86",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.170.65.224",
+                            "name": "107.170.65.224",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:107.181.255.244",
+                            "name": "107.181.255.244",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:108.179.236.204",
+                            "name": "108.179.236.204",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:108.59.253.38",
+                            "name": "108.59.253.38",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:108.61.58.4",
+                            "name": "108.61.58.4",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.104.92.167",
+                            "name": "109.104.92.167",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.104.92.180",
+                            "name": "109.104.92.180",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.120.169.94",
+                            "name": "109.120.169.94",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.123.216.35",
+                            "name": "109.123.216.35",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.127.8.242",
+                            "name": "109.127.8.242",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.130.69.212",
+                            "name": "109.130.69.212",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.132.31.203",
+                            "name": "109.132.31.203",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.169.66.107",
+                            "name": "109.169.66.107",
+                            "type": "IpAddress"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "ip:109.186.152.83",
+                            "name": "109.186.152.83",
+                            "type": "IpAddress"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedInternetDomainName",
+                "entities": [
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "idn:cribchronicles.com",
+                            "name": "cribchronicles.com",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "idn:ns-management.fr",
+                            "name": "ns-management.fr",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "idn:icaredentalstudio.com",
+                            "name": "icaredentalstudio.com",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "idn:optiker-michelmann.de",
+                            "name": "optiker-michelmann.de",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "idn:rzone.de",
+                            "name": "rzone.de",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "idn:securitywebservices.com",
+                            "name": "securitywebservices.com",
+                            "type": "InternetDomainName"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "idn:super8service.de",
+                            "name": "super8service.de",
+                            "type": "InternetDomainName"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedMalware",
+                "entities": [
+                    {
+                        "count": 8,
+                        "entity": {
+                            "id": "LGvbIT",
+                            "name": "Emotet",
+                            "type": "Malware"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "J21f9C",
+                            "name": "Zeus",
+                            "type": "Malware"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedAttackVector",
+                "entities": [
+                    {
+                        "count": 2,
+                        "entity": {
+                            "id": "LPc838",
+                            "name": "C&C Server",
+                            "type": "AttackVector"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "RelatedProduct",
+                "entities": [
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "Eg-Y9P",
+                            "name": "CURLS",
+                            "type": "Product"
+                        }
+                    },
+                    {
+                        "count": 1,
+                        "entity": {
+                            "id": "TMuuJm",
+                            "name": "WindowProc+257r 004175D0",
+                            "type": "Product"
+                        }
+                    }
+                ]
+            }
+        ],
+        "location": {
+            "asn": "AS14061",
+            "location": {
+                "continent": "North America",
+                "city": "New York",
+                "country": "United States"
+            },
+            "cidr": {
+                "id": "ip:104.236.0.0/22",
+                "name": "104.236.0.0/22",
+                "type": "IpAddress"
+            },
+            "organization": "DigitalOcean, LLC"
+        },
+        "entity": {
+            "id": "ip:104.236.2.253",
+            "name": "104.236.2.253",
+            "type": "IpAddress"
+        },
+        "timestamps": {
+            "firstSeen": "2017-04-25T18:40:22.089Z",
+            "lastSeen": "2018-09-14T13:48:41.521Z"
+        },
+        "metrics": [
+            {
+                "type": "pasteHits",
+                "value": 7
+            },
+            {
+                "type": "darkWebHits",
+                "value": 0
+            },
+            {
+                "type": "trendVolume",
+                "value": 0
+            },
+            {
+                "type": "criticality",
+                "value": 4
+            },
+            {
+                "type": "linkedIntrusion",
+                "value": 5
+            },
+            {
+                "type": "undergroundForumHits",
+                "value": 0
+            },
+            {
+                "type": "maliciousHits",
+                "value": 2
+            },
+            {
+                "type": "technicalReportingHits",
+                "value": 5
+            },
+            {
+                "type": "cncServer",
+                "value": 2
+            },
+            {
+                "type": "infoSecHits",
+                "value": 21
+            },
+            {
+                "type": "totalHits",
+                "value": 31
+            },
+            {
+                "type": "sixtyDaysHits",
+                "value": 4
+            },
+            {
+                "type": "oneDayHits",
+                "value": 0
+            },
+            {
+                "type": "threatResearcher",
+                "value": 2
+            },
+            {
+                "type": "recentCncServer",
+                "value": 2
+            },
+            {
+                "type": "socialMediaHits",
+                "value": 0
+            },
+            {
+                "type": "sevenDaysHits",
+                "value": 0
+            }
+        ],
+        "intelCard": "https://app.recordedfuture.com/live/sc/entity/ip%3A104.236.2.253",
+        "riskyCIDRIPs": [
+            {
+                "ip": {
+                    "id": "ip:104.236.2.253",
+                    "name": "104.236.2.253",
+                    "type": "IpAddress"
+                },
+                "score": 99
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.117",
+                    "name": "104.236.3.117",
+                    "type": "IpAddress"
+                },
+                "score": 24
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.180",
+                    "name": "104.236.1.180",
+                    "type": "IpAddress"
+                },
+                "score": 24
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.30",
+                    "name": "104.236.2.30",
+                    "type": "IpAddress"
+                },
+                "score": 24
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.96",
+                    "name": "104.236.0.96",
+                    "type": "IpAddress"
+                },
+                "score": 24
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.208",
+                    "name": "104.236.0.208",
+                    "type": "IpAddress"
+                },
+                "score": 24
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.183",
+                    "name": "104.236.2.183",
+                    "type": "IpAddress"
+                },
+                "score": 20
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.140",
+                    "name": "104.236.0.140",
+                    "type": "IpAddress"
+                },
+                "score": 15
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.45",
+                    "name": "104.236.2.45",
+                    "type": "IpAddress"
+                },
+                "score": 15
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.26",
+                    "name": "104.236.0.26",
+                    "type": "IpAddress"
+                },
+                "score": 15
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.233",
+                    "name": "104.236.2.233",
+                    "type": "IpAddress"
+                },
+                "score": 15
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.54",
+                    "name": "104.236.3.54",
+                    "type": "IpAddress"
+                },
+                "score": 15
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.177",
+                    "name": "104.236.3.177",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.191",
+                    "name": "104.236.2.191",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.91",
+                    "name": "104.236.3.91",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.56",
+                    "name": "104.236.3.56",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.55",
+                    "name": "104.236.2.55",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.71",
+                    "name": "104.236.3.71",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.181",
+                    "name": "104.236.1.181",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.105",
+                    "name": "104.236.2.105",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.246",
+                    "name": "104.236.1.246",
+                    "type": "IpAddress"
+                },
+                "score": 10
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.50",
+                    "name": "104.236.0.50",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.0",
+                    "name": "104.236.0.0",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.36",
+                    "name": "104.236.1.36",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.198",
+                    "name": "104.236.1.198",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.161",
+                    "name": "104.236.2.161",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.143",
+                    "name": "104.236.2.143",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.132",
+                    "name": "104.236.2.132",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.99",
+                    "name": "104.236.2.99",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.6",
+                    "name": "104.236.3.6",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.18",
+                    "name": "104.236.1.18",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.85",
+                    "name": "104.236.2.85",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.1.62",
+                    "name": "104.236.1.62",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.212",
+                    "name": "104.236.0.212",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.175",
+                    "name": "104.236.0.175",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.224",
+                    "name": "104.236.0.224",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.171",
+                    "name": "104.236.2.171",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.216",
+                    "name": "104.236.0.216",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.147",
+                    "name": "104.236.0.147",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.3.138",
+                    "name": "104.236.3.138",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.2.237",
+                    "name": "104.236.2.237",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            },
+            {
+                "ip": {
+                    "id": "ip:104.236.0.230",
+                    "name": "104.236.0.230",
+                    "type": "IpAddress"
+                },
+                "score": 5
+            }
+        ],
+        "risk": {
+            "criticalityLabel": "Very Malicious",
+            "rules": 4,
+            "evidenceDetails": [
+                {
+                    "rule": "Historically Linked to Intrusion Method",
+                    "evidenceString": "6 sightings on 5 sources: VirusTotal, PasteBin, Bobao News, CodeSec.net, Fortinet Blog  News and Threat Research - All Posts. 3 related intrusion methods: Banking Trojan, Emotet, Trojan. Most recent link (Aug 14, 2017): https://pastebin.com/YnV3tiry",
+                    "criticalityLabel": "Unusual",
+                    "mitigationString": "",
+                    "timestamp": "2017-08-14T15:32:16.000Z",
+                    "criticality": 1
+                },
+                {
+                    "rule": "Historical Threat Researcher",
+                    "evidenceString": "2 sightings on 2 sources: Fortinet Blog  News and Threat Research - All Posts, Cyphort. Most recent link (May 3, 2017): http://blog.fortinet.com/2017/05/03/deep-analysis-of-new-emotet-variant-part-1",
+                    "criticalityLabel": "Unusual",
+                    "mitigationString": "",
+                    "timestamp": "2017-05-03T17:50:33.000Z",
+                    "criticality": 1
+                },
+                {
+                    "rule": "Historical C&C Server",
+                    "evidenceString": "3 sightings on 2 sources: Cyphort, Abuse.ch: Feodo IP Blocklist. Most recent link (May 2, 2017): https://www.cyphort.com/emotet-cookies-c2-fakes-404/",
+                    "criticalityLabel": "Unusual",
+                    "mitigationString": "",
+                    "timestamp": "2018-09-23T14:10:36.930Z",
+                    "criticality": 1
+                },
+                {
+                    "rule": "Current C&C Server",
+                    "evidenceString": "2 sightings on 2 sources: GitHub, Abuse.ch: Feodo IP Blocklist. Most recent link (Sep 14, 2018): https://gist.github.com/nicdev/fb64d89cb3a29cbec630953ca4037238",
+                    "criticalityLabel": "Very Malicious",
+                    "mitigationString": "",
+                    "timestamp": "2018-09-14T13:48:30.000Z",
+                    "criticality": 4
+                }
+            ],
+            "riskSummary": "4 of 49 Risk Rules currently observed.",
+            "criticality": 4,
+            "riskString": "4/49",
+            "score": 99
+        },
+        "analystNotes": [],
+        "counts": [
+            {
+                "count": 1,
+                "date": "2017-04-26"
+            },
+            {
+                "count": 1,
+                "date": "2017-04-27"
+            },
+            {
+                "count": 1,
+                "date": "2018-01-28"
+            },
+            {
+                "count": 2,
+                "date": "2017-05-19"
+            },
+            {
+                "count": 1,
+                "date": "2017-08-07"
+            },
+            {
+                "count": 1,
+                "date": "2017-04-25"
+            },
+            {
+                "count": 1,
+                "date": "2018-01-01"
+            },
+            {
+                "count": 1,
+                "date": "2018-09-06"
+            },
+            {
+                "count": 1,
+                "date": "2018-05-26"
+            },
+            {
+                "count": 1,
+                "date": "2018-08-17"
+            },
+            {
+                "count": 1,
+                "date": "2018-09-14"
+            },
+            {
+                "count": 1,
+                "date": "2017-11-11"
+            },
+            {
+                "count": 1,
+                "date": "2017-11-15"
+            },
+            {
+                "count": 1,
+                "date": "2017-10-25"
+            },
+            {
+                "count": 1,
+                "date": "2017-10-26"
+            },
+            {
+                "count": 1,
+                "date": "2017-08-14"
+            },
+            {
+                "count": 1,
+                "date": "2018-02-28"
+            },
+            {
+                "count": 1,
+                "date": "2017-05-05"
+            },
+            {
+                "count": 1,
+                "date": "2018-04-08"
+            },
+            {
+                "count": 1,
+                "date": "2017-05-02"
+            },
+            {
+                "count": 2,
+                "date": "2017-05-03"
+            },
+            {
+                "count": 1,
+                "date": "2017-08-17"
+            },
+            {
+                "count": 1,
+                "date": "2018-02-20"
+            },
+            {
+                "count": 1,
+                "date": "2018-07-16"
+            },
+            {
+                "count": 1,
+                "date": "2018-06-04"
+            },
+            {
+                "count": 1,
+                "date": "2018-08-09"
+            },
+            {
+                "count": 1,
+                "date": "2018-05-11"
+            },
+            {
+                "count": 1,
+                "date": "2018-02-21"
+            },
+            {
+                "count": 1,
+                "date": "2017-08-23"
+            }
+        ],
+        "sightings": [
+            {
+                "published": "2018-09-14T13:48:30.000Z",
+                "type": "recentInfoSec",
+                "fragment": "\\n,31.23.128.204,\\n\\n,31.23.80.184,\\n\\n,31.28.103.254,\\n\\n,31.41.44.45,\\n\\n,31.42.172.36,\\n\\n,31.7.63.146,\\n\\n,37.123.99.188,\\n\\n,37.128.132.96,\\n\\n,37.139.30.95,\\n\\n,37.140.195.177,\\n\\n,37.143.11.189,\\n\\n,37.229.126.164,\\n\\n,37.46.131.153,\\n\\n,37.46.135.204,\\n\\n,37.48.125.119,\\n\\n,37.57.177.15,\\n\\n,37.58.112.101,\\n\\n,37.59.61.29,\\n\\n,37.99.146.27,\\n\\n,38.64.199.113,\\n\\n,38.64.199.33,\\n\\n,41.144.68.21,\\n\\n,41.189.45.166,\\n\\n,41.189.52.14,\\n\\n,41.189.53.94,\\n\\n,41.202.71.27,\\n\\n,41.202.78.237,\\n\\n,41.202.90.185,\\n\\n,41.207.11.79,\\n\\n,41.207.2.186,\\n\\n,41.207.203.238,\\n\\n,41.207.220.170,\\n\\n,41.207.220.57,\\n\\n,41.207.24.201,\\n\\n,41.207.64.49,\\n\\n,41.38.18.230,\\n\\n,41.66.35.238,\\n\\n,41.66.39.42,\\n\\n,41.79.173.47,\\n\\n,41.86.46.245,\\n\\n,42.117.2.85,\\n\\n,45.124.65.51,\\n\\n,45.127.92.179,\\n\\n,45.46.51.81,\\n\\n,45.55.136.31,\\n\\n,46.151.52.191,\\n\\n,46.151.52.61,\\n\\n,46.16.200.133,\\n\\n,46.161.2.60,\\n\\n,46.161.40.102,\\n\\n,46.161.40.106,\\n\\n,46.165.222.231,\\n\\n,46.19.136.211,\\n\\n,46.22.128.133,\\n\\n,",
+                "url": "https://gist.github.com/nicdev/fb64d89cb3a29cbec630953ca4037238",
+                "source": "GitHub",
+                "title": "[RFI] GET /collections · GitHub"
+            },
+            {
+                "published": "2018-09-14T13:48:30.000Z",
+                "type": "mostRecent",
+                "fragment": "\\n,31.23.128.204,\\n\\n,31.23.80.184,\\n\\n,31.28.103.254,\\n\\n,31.41.44.45,\\n\\n,31.42.172.36,\\n\\n,31.7.63.146,\\n\\n,37.123.99.188,\\n\\n,37.128.132.96,\\n\\n,37.139.30.95,\\n\\n,37.140.195.177,\\n\\n,37.143.11.189,\\n\\n,37.229.126.164,\\n\\n,37.46.131.153,\\n\\n,37.46.135.204,\\n\\n,37.48.125.119,\\n\\n,37.57.177.15,\\n\\n,37.58.112.101,\\n\\n,37.59.61.29,\\n\\n,37.99.146.27,\\n\\n,38.64.199.113,\\n\\n,38.64.199.33,\\n\\n,41.144.68.21,\\n\\n,41.189.45.166,\\n\\n,41.189.52.14,\\n\\n,41.189.53.94,\\n\\n,41.202.71.27,\\n\\n,41.202.78.237,\\n\\n,41.202.90.185,\\n\\n,41.207.11.79,\\n\\n,41.207.2.186,\\n\\n,41.207.203.238,\\n\\n,41.207.220.170,\\n\\n,41.207.220.57,\\n\\n,41.207.24.201,\\n\\n,41.207.64.49,\\n\\n,41.38.18.230,\\n\\n,41.66.35.238,\\n\\n,41.66.39.42,\\n\\n,41.79.173.47,\\n\\n,41.86.46.245,\\n\\n,42.117.2.85,\\n\\n,45.124.65.51,\\n\\n,45.127.92.179,\\n\\n,45.46.51.81,\\n\\n,45.55.136.31,\\n\\n,46.151.52.191,\\n\\n,46.151.52.61,\\n\\n,46.16.200.133,\\n\\n,46.161.2.60,\\n\\n,46.161.40.102,\\n\\n,46.161.40.106,\\n\\n,46.165.222.231,\\n\\n,46.19.136.211,\\n\\n,46.22.128.133,\\n\\n,",
+                "url": "https://gist.github.com/nicdev/fb64d89cb3a29cbec630953ca4037238",
+                "source": "GitHub",
+                "title": "[RFI] GET /collections · GitHub"
+            },
+            {
+                "published": "2017-04-25T18:05:46.000Z",
+                "type": "first",
+                "fragment": "#malware #emotet Direct IP communications: 212.83.166.45 87.106.149.74 115.28.0.193 144.76.79.43 173.230.136.67 194.88.246.7 212.83.166.45 119.82.27.246 192.241.151.140 137.74.254.64 104.227.137.34 85.143.221.180 206.214.220.79 188.165.220.214 104.236.2.253 173.224.218.25 109.74.204.70 192.99.38.200 6e5aeba3622ca0f1dac16ea7e11b721ded900f909d5e5eb885a516b8ec679193.",
+                "url": "https://www.virustotal.com/file/6e5aeba3622ca0f1dac16ea7e11b721ded900f909d5e5eb885a516b8ec679193/analysis/",
+                "source": "VirusTotal",
+                "title": "Antivirus scan for 6e5aeba3622ca0f1dac16ea7e11b721ded900f909d5e5eb885a516b8ec679193 at 2017-04-25 18:05:46 UTC - VirusTotal"
+            },
+            {
+                "published": "2018-08-17T16:18:11.000Z",
+                "type": "recentPaste",
+                "fragment": "104.236.2.253",
+                "url": "https://pastebin.com/4NwGjme2",
+                "source": "PasteBin",
+                "title": "Untitled Paste from Pastebin"
+            }
+        ]
+    }
+}
