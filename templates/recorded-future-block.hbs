@@ -1,5 +1,7 @@
 <div>
+    {{#if hasLink}}
     <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
+    {{/if}}
     <div>
         <h1 class="p-title">
             Risks
@@ -31,6 +33,7 @@
         {{/each}}
     </div>
 
+    {{#if hasLocation}}
     <h1 class="p-title">
         Location
     </h1>
@@ -46,7 +49,9 @@
         <span class="p-key">Organization</span>
         <span class="p-value">{{details.location.organization}}</span>
     </div>
+    {{/if}}
 
+    {{#if hasSightings}}
     <div>
         <h1 class="p-title">
             Sightings
@@ -66,4 +71,5 @@
         <br />
         {{/each}}
     </div>
+    {{/if}}
 </div>

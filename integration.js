@@ -20,26 +20,55 @@ function handleRequestError(request) {
 }
 
 function doLookup(entities, options, callback) {
+    Logger.trace('looking entities');
+
     let results = [];
 
     async.forEach(entities, (entity, done) => {
-        requestWithDefaults({
-            url: 'https://api.recordedfuture.com/v2/ip/104.236.2.253',
+        let requestOptions = {
             qs: {
                 fields: [
                     'risk',
                     'intelCard',
-                    'sightings',
-                    'location'
+                    'sightings'
                 ]
                     .join(',')
             },
             headers: {
                 'X-RFToken': options.apiKey
             }
-        }, 200, (err, data) => {
-            if (err) {
+        };
+
+        if (entity.isIP) {
+            requestOptions.url = 'https://api.recordedfuture.com/v2/ip/' + entity.value;
+            requestOptions.qs.fields = requestOptions.qs.fields
+                .split(',')
+                .concat('location')
+                .join(',');
+        } else if (entity.isHash) {
+            requestOptions.url = 'https://api.recordedfuture.com/v2/hash/' + entity.value;
+        } else if (entity.isDomain) {
+            requestOptions.url = 'https://api.recordedfuture.com/v2/domain/' + entity.value;
+        } else if (entity.isURL) {
+            requestOptions.url = 'https://api.recordedfuture.com/v2/url/' + encodeURIComponent(entity.value);
+        } else {
+            done({ err: new Error('unknown entity type') });
+            return
+        }
+
+        requestWithDefaults(requestOptions, 200, (err, data) => {
+            if (err && err.statusCode !== 404) {
+                Logger.error('error looking up entity', { entity: entity });
                 done(err);
+                return;
+            }
+
+            if (err && err.statusCode === 404) {
+                results.push({
+                    entity: entity,
+                    data: null
+                });
+                done();
                 return;
             }
 
@@ -59,6 +88,10 @@ function doLookup(entities, options, callback) {
             done();
         });
     }, err => {
+        if (err) {
+            Logger.error('Error during lookup', { err: err });
+        }
+
         callback(err, results);
     });
 }
