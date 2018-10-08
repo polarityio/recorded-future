@@ -63,7 +63,7 @@ function doLookup(entities, options, callback) {
                 return;
             }
 
-            if (err && err.statusCode === 404) {
+            if ((err && err.statusCode === 404) || data.data.risk.score < options.minimumScore) {
                 results.push({
                     entity: entity,
                     data: null

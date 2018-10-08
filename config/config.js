@@ -100,7 +100,15 @@ module.exports = {
             type: "text",
             userCanEdit: false,
             adminOnly: true
+        },
+        {
+            key: "minimumScore",
+            name: "Minimum Score",
+            description: "The minimum score a threat must have to be displayed",
+            default: 40,
+            type: "number",
+            userCanEdit: false,
+            adminOnly: true
         }
-
     ]
 };
