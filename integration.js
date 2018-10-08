@@ -79,7 +79,7 @@ function doLookup(entities, options, callback) {
                 data: {
                     summary: [
                         risk.criticalityLabel,
-                        risk.score,
+                        `Risk Core: ${risk.score}`,
                         `Rules: ${risk.riskString}`
                     ],
                     details: data.data
