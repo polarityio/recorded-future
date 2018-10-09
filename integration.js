@@ -35,7 +35,8 @@ function doLookup(entities, options, callback) {
                     .join(',')
             },
             headers: {
-                'X-RFToken': options.apiKey
+                'X-RFToken': options.apiKey,
+                'X-RF-User-Agent': 'polarity'
             }
         };
 
