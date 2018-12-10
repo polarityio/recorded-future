@@ -6,11 +6,12 @@ let Logger;
 let requestWithDefaults;
 let requestOptions = {};
 
+let host = 'https://api.recordedfuture.com';
+
 function handleRequestError(request) {
     return (options, expectedStatusCode, callback) => {
         return request(options, (err, resp, body) => {
             if (err || resp.statusCode !== expectedStatusCode) {
-                Logger.error(`error during http request to ${options.url}`, { error: err, status: resp ? resp.statusCode : 'unknown' });
                 callback({ error: err, statusCode: resp ? resp.statusCode : 'unknown' });
             } else {
                 callback(null, body);
@@ -21,6 +22,11 @@ function handleRequestError(request) {
 
 function doLookup(entities, options, callback) {
     Logger.trace('looking entities');
+
+    // this is only used for testing purposes
+    if (options.host) {
+        host = options.host;
+    }
 
     let results = [];
 
@@ -41,35 +47,41 @@ function doLookup(entities, options, callback) {
         };
 
         if (entity.isIP) {
-            requestOptions.url = 'https://api.recordedfuture.com/v2/ip/' + entity.value;
+            requestOptions.url = host + '/v2/ip/' + entity.value;
             requestOptions.qs.fields = requestOptions.qs.fields
                 .split(',')
                 .concat('location')
                 .join(',');
         } else if (entity.isHash) {
-            requestOptions.url = 'https://api.recordedfuture.com/v2/hash/' + entity.value;
+            requestOptions.url = host + '/v2/hash/' + entity.value;
         } else if (entity.isDomain) {
-            requestOptions.url = 'https://api.recordedfuture.com/v2/domain/' + entity.value;
+            requestOptions.url = host + '/v2/domain/' + entity.value;
         } else if (entity.isURL) {
-            requestOptions.url = 'https://api.recordedfuture.com/v2/url/' + encodeURIComponent(entity.value);
+            requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
         } else {
             done({ err: new Error('unknown entity type') });
             return
         }
 
         requestWithDefaults(requestOptions, 200, (err, data) => {
-            if (err && err.statusCode !== 404) {
-                Logger.error('error looking up entity', { entity: entity });
-                done(err);
-                return;
-            }
-
-            if ((err && err.statusCode === 404) || data.data.risk.score < options.minimumScore) {
+            if ((err && err.statusCode === 404) || (data && data.data.risk.score < options.minimumScore)) {
                 results.push({
                     entity: entity,
                     data: null
                 });
                 done();
+                return;
+            }
+
+            if (err && err.statusCode === 403) {
+                Logger.error('API Quota exceeded')
+                done({ message: 'API quota exceeded', err: err });
+                return;
+            }
+
+            if (err && err.statusCode !== 404) {
+                Logger.error('error looking up entity', { entity: entity });
+                done(err);
                 return;
             }
 

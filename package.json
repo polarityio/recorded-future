@@ -10,14 +10,20 @@
     "async": "2.1.4"
   },
   "devDependencies": {
-    "chai": "~3.5",
-    "mocha": "~3.2",
+    "async": "^2.1.4",
+    "bunyan": "^1.8.12",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "mountebank": "^1.15.0",
     "node-ssh": "^5.1.2",
     "node-watch": "^0.5.8",
+    "request": "^2.88.0",
     "scp2": "^0.5.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --recursive",
+    "pretest": "mb start --configfile imposters.json --mock &",
+    "test": "mocha --recursive || mb stop",
+    "posttest": "mb stop",
     "dev": "./sync.js"
   }
 }
