@@ -1,23 +1,21 @@
-# Polarity recorded future Integration
+# Polarity Recorded Future Integration
 
-![image](https://img.shields.io/badge/status-beta-green.svg)
+Polarity integration for searching Recorded Futures for associated threat information.
+
+![image](https://user-images.githubusercontent.com/22529325/52148210-0296ba00-2637-11e9-89f2-bf3ed52cf976.png)
 
 ## recorded future Integration Options
 
-### Option 1
+### Recorded Future API Key
 
-Describe option 1 here.
+API Key associated with Recorded Future account. 
 
-### Option 2
+### Minimum Score
 
-Describe option 2 here.
-
-### Option 3
-
-Describe option 3 here.
+Minimum risk score a threat needs to have in order to be displayed.
 
 ## Polarity
 
-Polarity is a memory-augmentation platform that improves and accelerates analyst decision making.  For more information about the Polarity platform please see: 
+Polarity is a memory-augmentation platform that improves and accelerates analyst decision making.  For more information about the Polarity platform please see:
 
 https://polarity.io/
