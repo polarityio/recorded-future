@@ -52,23 +52,23 @@ module.exports = {
     },
     request: {
         // Provide the path to your certFile. Leave an empty string to ignore this option.
-        // Relative paths are relative to the RF integration's root directory
+        // Relative paths are relative to the STAXX integration's root directory
         cert: '',
         // Provide the path to your private key. Leave an empty string to ignore this option.
-        // Relative paths are relative to the RF integration's root directory
+        // Relative paths are relative to the STAXX integration's root directory
         key: '',
         // Provide the key passphrase if required.  Leave an empty string to ignore this option.
-        // Relative paths are relative to the RF integration's root directory
+        // Relative paths are relative to the STAXX integration's root directory
         passphrase: '',
         // Provide the Certificate Authority. Leave an empty string to ignore this option.
-        // Relative paths are relative to the RF integration's root directory
+        // Relative paths are relative to the STAXX integration's root directory
         ca: '',
         // An HTTP proxy to be used. Supports proxy Auth with Basic Auth, identical to support for
         // the url parameter (by embedding the auth info in the uri)
         proxy: '',
         /**
          * If set to false, the integeration will ignore SSL errors.  This will allow the integration to connect
-         * to RF servers without valid SSL certificates.  Please note that we do NOT recommending setting this
+         * to STAXX servers without valid SSL certificates.  Please note that we do NOT recommending setting this
          * to false in a production environment.
          */
         rejectUnauthorized: true
@@ -82,7 +82,7 @@ module.exports = {
         // the directory you specify is writable by the `polarityd:polarityd` user and group.
 
         //directoryPath: '/var/log/polarity-integrations',
-        level: 'info',  //trace, debug, info, warn, error, fatal
+        level: 'trace',  //trace, debug, info, warn, error, fatal
     },
     /**
      * Options that are displayed to the user/admin in the Polarity integration user-interface.  Should be structured
@@ -109,6 +109,35 @@ module.exports = {
             type: "number",
             userCanEdit: false,
             adminOnly: true
+        },
+        {
+            key: 'blacklist',
+            name: 'Blacklist Domains',
+            description: 'Comma delimited list of domains that you do not want to lookup.',
+            default: '',
+            type: 'text',
+            userCanEdit: false,
+            adminOnly: false
+        },
+        {
+            key: 'domainBlacklistRegex',
+            name: 'Domain Black List Regex',
+            description:
+                'Domains that match the given regex will not be looked up (if blank, no domains will be black listed)',
+            default: '',
+            type: 'text',
+            userCanEdit: false,
+            adminOnly: false
+        },
+        {
+            key: 'ipBlacklistRegex',
+            name: 'IP Black List Regex',
+            description:
+                'IPs that match the given regex will not be looked up (if blank, no IPs will be black listed)',
+            default: '',
+            type: 'text',
+            userCanEdit: false,
+            adminOnly: false
         }
     ]
 };
