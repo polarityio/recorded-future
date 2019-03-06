@@ -8,6 +8,13 @@ let requestOptions = {};
 
 let host = 'https://api.recordedfuture.com';
 
+let domainBlackList = [];
+let previousDomainBlackListAsString = '';
+let previousDomainRegexAsString = '';
+let previousIpRegexAsString = '';
+let domainBlacklistRegex = null;
+let ipBlacklistRegex = null;
+
 function handleRequestError(request) {
     return (options, expectedStatusCode, callback) => {
         return request(options, (err, resp, body) => {
@@ -20,6 +27,82 @@ function handleRequestError(request) {
     };
 }
 
+function _setupRegexBlacklists(options) {
+    if (
+        options.domainBlacklistRegex !== previousDomainRegexAsString &&
+        options.domainBlacklistRegex.length === 0
+    ) {
+        Logger.debug('Removing Domain Blacklist Regex Filtering');
+        previousDomainRegexAsString = '';
+        domainBlacklistRegex = null;
+    } else {
+        if (options.domainBlacklistRegex !== previousDomainRegexAsString) {
+            previousDomainRegexAsString = options.domainBlacklistRegex;
+            Logger.debug(
+                { domainBlacklistRegex: previousDomainRegexAsString },
+                'Modifying Domain Blacklist Regex'
+            );
+            domainBlacklistRegex = new RegExp(options.domainBlacklistRegex, 'i');
+        }
+    }
+
+    if (options.blacklist !== previousDomainBlackListAsString && options.blacklist.length === 0) {
+        Logger.debug('Removing Domain Blacklist Filtering');
+        previousDomainBlackListAsString = '';
+        domainBlackList = null;
+    } else {
+        if (options.blacklist !== previousDomainBlackListAsString) {
+            previousDomainBlackListAsString = options.blacklist;
+            Logger.debug(
+                { domainBlacklist: previousDomainBlackListAsString },
+                'Modifying Domain Blacklist Regex'
+            );
+            domainBlackList = options.blacklist.split(',').map((item) => item.trim());
+        }
+    }
+
+    if (
+        options.ipBlacklistRegex !== previousIpRegexAsString &&
+        options.ipBlacklistRegex.length === 0
+    ) {
+        Logger.debug('Removing IP Blacklist Regex Filtering');
+        previousIpRegexAsString = '';
+        ipBlacklistRegex = null;
+    } else {
+        if (options.ipBlacklistRegex !== previousIpRegexAsString) {
+            previousIpRegexAsString = options.ipBlacklistRegex;
+            Logger.debug({ ipBlacklistRegex: previousIpRegexAsString }, 'Modifying IP Blacklist Regex');
+            ipBlacklistRegex = new RegExp(options.ipBlacklistRegex, 'i');
+        }
+    }
+}
+
+function _isEntityBlacklisted(entityObj, options) {
+    if (domainBlackList.indexOf(entityObj.value) >= 0) {
+        return true;
+    }
+
+    if (entityObj.isIPv4 && !entityObj.isPrivateIP) {
+        if (ipBlacklistRegex !== null) {
+            if (ipBlacklistRegex.test(entityObj.value)) {
+                Logger.debug({ ip: entityObj.value }, 'Blocked BlackListed IP Lookup');
+                return true;
+            }
+        }
+    }
+
+    if (entityObj.isDomain) {
+        if (domainBlacklistRegex !== null) {
+            if (domainBlacklistRegex.test(entityObj.value)) {
+                Logger.debug({ domain: entityObj.value }, 'Blocked BlackListed Domain Lookup');
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function doLookup(entities, options, callback) {
     Logger.trace('looking entities');
 
@@ -28,9 +111,20 @@ function doLookup(entities, options, callback) {
         host = options.host;
     }
 
+    _setupRegexBlacklists(options);
+
     let results = [];
 
     async.forEach(entities, (entity, done) => {
+        if (_isEntityBlacklisted(entity)) {
+            results.push({
+                entity: entity,
+                data: null
+            });
+            done();
+            return;
+        }
+
         let requestOptions = {
             qs: {
                 fields: [
