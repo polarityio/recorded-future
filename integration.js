@@ -1,6 +1,7 @@
-let async = require('async');
-let config = require('./config/config');
-let request = require('request');
+const async = require('async');
+const config = require('./config/config');
+const request = require('request');
+const fs = require('fs');
 
 let Logger;
 let requestWithDefaults;
