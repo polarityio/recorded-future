@@ -7,7 +7,7 @@ let Logger;
 let requestWithDefaults;
 let requestOptions = {};
 
-let host = 'https://api.recordedfuture.com';
+const BASE_URL = 'https://api.recordedfuture.com';
 
 let domainBlackList = [];
 let previousDomainBlackListAsString = '';
@@ -105,9 +105,8 @@ function _isEntityBlacklisted(entityObj, options) {
 }
 
 function doLookup(entities, options, callback) {
-    Logger.trace('looking entities');
-
     // this is only used for testing purposes
+    let host = BASE_URL;
     if (options.host) {
         host = options.host;
     }
