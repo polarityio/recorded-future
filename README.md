@@ -1,18 +1,22 @@
 # Polarity Recorded Future Integration
 
-Polarity integration for searching Recorded Futures for associated threat information.
+Polarity integration for searching Recorded Future for associated threat information.
 
 ![image](https://user-images.githubusercontent.com/22529325/52148210-0296ba00-2637-11e9-89f2-bf3ed52cf976.png)
 
-## recorded future Integration Options
+## Recorded Future Integration Options
 
 ### Recorded Future API Key
 
-API Key associated with Recorded Future account. 
+API Key associated with Recorded Future account.
 
 ### Minimum Score
 
 Minimum risk score a threat needs to have in order to be displayed.
+
+## Installation Instructions
+
+Installation instructions for integrations are provided on the [PolarityIO GitHub Page](https://polarityio.github.io/).
 
 ## Polarity
 

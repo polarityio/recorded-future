@@ -1,11 +1,13 @@
 <div>
     {{#if hasLink}}
-    <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
+        <div class="link-container">
+            <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
+        </div>
     {{/if}}
 
     <div class="indicator">
             <div class="tic-gauge-container">
-                <svg x="0" y="0" width="50%" height="50%" viewBox="0 0 55 50">
+                <svg x="0" y="0" width="30%" height="30%" viewBox="0 0 55 50">
                     <g transform="translate(28,25)">
                         <g>
                             <circle r="{{elementRadius}}" stroke="#eee" transform="rotate(-90)" fill="#fff"
@@ -33,48 +35,51 @@
             Risks
         </h1>
         <div>
-            <span class="p-key">Criticality</span>
+            <span class="p-key">Criticality: </span>
             <span class="p-value">{{details.risk.criticalityLabel}}</span>
         </div>
         <div>
-            <span class="p-key">Rules Summary</span>
+            <span class="p-key">Rules Summary: </span>
             <span class="p-value">{{details.risk.riskSummary}}</span>
         </div>
         <div>
-            <span class="p-key">Score</span>
+            <span class="p-key">Score: </span>
             <span class="p-value">{{details.risk.score}}</span>
         </div>
     </div>
 
-    <div>
-        <h1 class="p-title">
-            Risk Details
-        </h1>
-        {{#each details.risk.evidenceDetails as |evidence|}}
+
+    {{#if (gt details.risk.evidenceDetails.length 0)}}
         <div>
-            <div class="p-key">{{evidence.rule}}</div>
-            <div class="p-value">{{evidence.evidenceString}}</div>
+            <h1 class="p-title">
+                Risk Details
+            </h1>
+            {{#each details.risk.evidenceDetails as |evidence|}}
+            <div>
+                <div class="p-key">{{evidence.rule}}</div>
+                <div class="p-value">{{evidence.evidenceString}}</div>
+            </div>
+            <br />
+            {{/each}}
         </div>
-        <br />
-        {{/each}}
-    </div>
+    {{/if}}
 
     {{#if hasLocation}}
-    <h1 class="p-title">
-        Location
-    </h1>
-    <div>
-        <span class="p-key">Country</span>
-        <span class="p-value">{{details.location.location.country}}</span>
-    </div>
-    <div>
-        <span class="p-key">City</span>
-        <span class="p-value">{{details.location.location.city}}</span>
-    </div>
-    <div>
-        <span class="p-key">Organization</span>
-        <span class="p-value">{{details.location.organization}}</span>
-    </div>
+        <h1 class="p-title">
+            Location
+        </h1>
+        <div>
+            <span class="p-key">Country: </span>
+            <span class="p-value">{{details.location.location.country}}</span>
+        </div>
+        <div>
+            <span class="p-key">City: </span>
+            <span class="p-value">{{details.location.location.city}}</span>
+        </div>
+        <div>
+            <span class="p-key">Organization: </span>
+            <span class="p-value">{{details.location.organization}}</span>
+        </div>
     {{/if}}
 
     {{#if hasSightings}}
