@@ -2,7 +2,7 @@
 
 Polarity integration for searching Recorded Future for associated threat information.
 
-![image](https://user-images.githubusercontent.com/22529325/52148210-0296ba00-2637-11e9-89f2-bf3ed52cf976.png)
+<img src="./assets/overlay.png" width="50%">
 
 ## Recorded Future Integration Options
 
@@ -13,6 +13,18 @@ API Key associated with Recorded Future account.
 ### Minimum Score
 
 Minimum risk score a threat needs to have in order to be displayed.
+
+### Ignored Domains
+
+Comma delimited list of domains that you do not want to lookup.
+
+### Domain Ignore List Regex
+
+Domains that match the given regex will not be looked up (if blank, no domains will be ignored)
+
+### IP Ignore List Regex
+
+IPs that match the given regex will not be looked up (if blank, no IPs will be ignored)
 
 ## Installation Instructions
 

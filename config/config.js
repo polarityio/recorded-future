@@ -110,7 +110,7 @@ module.exports = {
     },
     {
       key: 'blacklist',
-      name: 'Blacklist Domains',
+      name: 'Ignored Domains',
       description: 'Comma delimited list of domains that you do not want to lookup.',
       default: '',
       type: 'text',
@@ -119,9 +119,9 @@ module.exports = {
     },
     {
       key: 'domainBlacklistRegex',
-      name: 'Domain Black List Regex',
+      name: 'Domain Ignore List Regex',
       description:
-        'Domains that match the given regex will not be looked up (if blank, no domains will be black listed)',
+        'Domains that match the given regex will not be looked up (if blank, no domains will be ignored)',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -129,8 +129,8 @@ module.exports = {
     },
     {
       key: 'ipBlacklistRegex',
-      name: 'IP Black List Regex',
-      description: 'IPs that match the given regex will not be looked up (if blank, no IPs will be black listed)',
+      name: 'IP Ignore List Regex',
+      description: 'IPs that match the given regex will not be looked up (if blank, no IPs will be ignored)',
       default: '',
       type: 'text',
       userCanEdit: false,

@@ -26,7 +26,7 @@ describe('Recorded Future integration', () => {
       },
       (err, resp) => {
         assert.isOk(err);
-        assert.equal(err.message, 'API quota exceeded');
+        assert.equal(err.detail, 'API quota exceeded');
         done();
       }
     );

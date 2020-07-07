@@ -127,10 +127,7 @@ function doLookup(entities, options, callback) {
 
       if (entity.isIP) {
         requestOptions.url = host + '/v2/ip/' + entity.value;
-        requestOptions.qs.fields = requestOptions.qs.fields
-          .split(',')
-          .concat('location')
-          .join(',');
+        requestOptions.qs.fields = requestOptions.qs.fields.split(',').concat('location').join(',');
       } else if (entity.isHash) {
         requestOptions.url = host + '/v2/hash/' + entity.value;
       } else if (entity.isDomain) {
@@ -138,7 +135,7 @@ function doLookup(entities, options, callback) {
       } else if (entity.isURL) {
         requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
       } else {
-        done({ err: new Error('unknown entity type') });
+        done({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
         return;
       }
 
@@ -154,13 +151,16 @@ function doLookup(entities, options, callback) {
 
         if (err && err.statusCode === 403) {
           Logger.error('API Quota exceeded');
-          done({ message: 'API quota exceeded', err: err });
+          done({ detail: 'API quota exceeded', err: err });
           return;
         }
 
         if (err && err.statusCode !== 404) {
           Logger.error('error looking up entity', { entity: entity });
-          done(err);
+          done({
+            detail: 'Unexpected Error',
+            err
+          });
           return;
         }
 
