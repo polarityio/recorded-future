@@ -109,7 +109,7 @@ module.exports = {
       adminOnly: true
     },
     {
-      key: 'blacklist',
+      key: 'blocklist',
       name: 'Ignored Domains',
       description: 'Comma delimited list of domains that you do not want to lookup.',
       default: '',
@@ -118,7 +118,7 @@ module.exports = {
       adminOnly: false
     },
     {
-      key: 'domainBlacklistRegex',
+      key: 'domainBlocklistRegex',
       name: 'Domain Ignore List Regex',
       description:
         'Domains that match the given regex will not be looked up (if blank, no domains will be ignored)',
@@ -128,7 +128,7 @@ module.exports = {
       adminOnly: false
     },
     {
-      key: 'ipBlacklistRegex',
+      key: 'ipBlocklistRegex',
       name: 'IP Ignore List Regex',
       description: 'IPs that match the given regex will not be looked up (if blank, no IPs will be ignored)',
       default: '',
