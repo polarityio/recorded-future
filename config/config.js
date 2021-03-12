@@ -24,6 +24,7 @@ module.exports = {
    */
   description: 'Gain access to Recorded Future\'s relevant cyber threat insights in real time',
   entityTypes: ['ipv4', 'hash', 'domain', 'url'],
+  defaultColor: 'light-pink',
   /**
    * An array of style files (css or less) that will be included for your integration. Any styles specified in
    * the below files can be used in your custom template.
@@ -95,7 +96,7 @@ module.exports = {
       name: 'API Key',
       description: 'The API key to use to authenticate with Recorded Future',
       default: '',
-      type: 'text',
+      type: 'password',
       userCanEdit: false,
       adminOnly: true
     },
