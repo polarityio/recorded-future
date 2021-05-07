@@ -134,6 +134,8 @@ function doLookup(entities, options, callback) {
         requestOptions.url = host + '/v2/domain/' + entity.value;
       } else if (entity.isURL) {
         requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
+      } else if (entity.type === 'cve') {
+        requestOptions.url = host + '/v2/vulnerability/' + entity.value;
       } else {
         done({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
         return;
@@ -173,6 +175,7 @@ function doLookup(entities, options, callback) {
             details: data.data
           }
         });
+        Logger.trace({ results }, 'Results');
         done();
       });
     },
