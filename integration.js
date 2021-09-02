@@ -20,7 +20,14 @@ function handleRequestError(request) {
   return (options, expectedStatusCode, callback) => {
     return request(options, (err, resp, body) => {
       if (err || resp.statusCode !== expectedStatusCode) {
-        callback({ error: err, statusCode: resp ? resp.statusCode : 'unknown' });
+        const error = err && JSON.parse(JSON.stringify(err, Object.getOwnPropertyNames(err)))
+        const errorResult = {
+          error,
+          statusCode: resp ? resp.statusCode : 'unknown',
+          body
+        };
+        Logger.error(errorResult, "Request or Status Code Error");
+        callback(errorResult, body);
       } else {
         callback(null, body);
       }
@@ -140,9 +147,14 @@ function doLookup(entities, options, callback) {
         done({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
         return;
       }
-
+      
       requestWithDefaults(requestOptions, 200, (err, data) => {
-        if ((err && err.statusCode === 404) || (data && data.data.risk.score < options.minimumScore)) {
+        if (
+          (err && err.statusCode === 404) ||
+          (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
+            ? data.data.risk.score
+            : options.minimumScore) < options.minimumScore
+        ) {
           results.push({
             entity: entity,
             data: null
@@ -151,17 +163,39 @@ function doLookup(entities, options, callback) {
           return;
         }
 
-        if (err && err.statusCode === 403) {
-          Logger.error('API Quota exceeded');
-          done({ detail: 'API quota exceeded', err: err });
+        if (err && [403, 401].includes(err.statusCode)) {
+          const baseErrorMessage =
+            (data.error && (data.error.message || data.error.reason)) ||
+            err.message ||
+            (err.statusCode === 401 && 'API Key is not working and could be incorrect') ||
+            'Unknown Cause';
+          
+          const optionalStatusCode =
+            err.statusCode || data.status ? `.\n\nStatus Code: ${err.statusCode || data.status}` : '';
+
+          const optionalTraceId =  data.traceId ? `\n\nTrace ID: ${data.traceId}` : ''
+
+          results.push({
+            entity,
+            isVolatile: true,
+            data: {
+              summary: ['Search Returned Error'],
+              details: {
+                errorMessage: `${baseErrorMessage}${optionalStatusCode}${optionalTraceId}`,
+                allowRetry: err.statusCode !== 401
+              }
+            }
+          });
+          done();
           return;
         }
 
-        if (err && err.statusCode !== 404) {
-          Logger.error('error looking up entity', { entity: entity });
+        if (err) {
+          Logger.error('error looking up entity', { entity });
           done({
             detail: 'Unexpected Error',
-            err
+            err,
+            data
           });
           return;
         }
@@ -238,11 +272,36 @@ function validateOptions(options, callback) {
 
   validateStringOption(errors, options, 'apiKey', 'You must provide an API key.');
 
+  if(options.minimumScore.value < 0) {errors = errors.concat({
+    key: 'minimumScore',
+    message: "Minimum Score must be 0 or higher"
+  });}
   callback(null, errors);
 }
 
+function onMessage(payload, options, cb) {
+  switch (payload.action) {
+    case 'RETRY_LOOKUP':
+      doLookup([payload.entity], options, (err, lookupResults) => {
+        if (err) {
+          Logger.error({ err }, 'Error retrying lookup');
+          cb(err);
+        } else {
+          cb(
+            null,
+            lookupResults && lookupResults[0] && lookupResults[0].data === null
+              ? { data: { summary: ['No Results Found on Retry'] } }
+              : lookupResults[0]
+          );
+        }
+      });
+      break;
+  }
+}
+
 module.exports = {
-  doLookup: doLookup,
-  startup: startup,
-  validateOptions: validateOptions
+  doLookup,
+  startup,
+  onMessage,
+  validateOptions
 };

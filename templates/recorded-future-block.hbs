@@ -1,108 +1,143 @@
-{{#if hasLink}}
-    <div class="link-container">
+{{#if details.errorMessage}}
+  <div class="mt-2">
+    <div class="alert alert-danger">
+      <pre>{{details.errorMessage}}</pre>
+    </div>
+    {{#if (not (eq details.allowRetry false))}}
+      <button type="button" class="p-btn btn btn-sm btn-secondary retry-btn mt-2" {{action "retryLookup"}}>
+        {{#if running}}
+          {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
+        {{else}}
+          Retry Search
+        {{/if}}
+      </button>
+      <div class="mt-1">
+        <span class="p-footnote"> You can retry your search by pressing the "Retry Search" button.</span>
+      </div>
+    {{/if}}
+  </div>
+{{else}}
+  {{#if details}}
+    {{#if hasLink}}
+      <div class="link-container">
         <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
-    </div>
-{{/if}}
+      </div>
+    {{/if}}
 
-<div class="indicator">
-    <div class="tic-gauge-container">
+    <div class="indicator">
+      <div class="tic-gauge-container">
         <svg x="0" y="0" width="30%" height="30%" viewBox="0 0 55 50">
-            <g transform="translate(28,25)">
-                <g>
-                    <circle r="{{elementRadius}}" stroke="#eee" transform="rotate(-90)" fill="#fff"
-                            stroke-width="{{elementStrokeWidth}}"
-                            cx="0"
-                            cy="0"></circle>
-                    {{!-- this is the inner circle --}}
-                    {{!-- stroke=<color> is the inner circle color --}}
-                    <circle stroke-dasharray="{{elementCircumference}}" r="{{elementRadius}}"
-                            stroke="{{elementColor}}"
-                            transform="rotate(-90)" fill="none"
-                            stroke-dashoffset="{{elementStrokeOffset}}"
-                            stroke-width="{{elementStrokeWidth}}" cx="0"
-                            cy="0"></circle>
-                    <text text-anchor="middle" x="0" y="5" fill="{{elementColor}}"
-                          font-size="13">{{details.risk.score}}</text>
-                </g>
+          <g transform="translate(28,25)">
+            <g>
+              <circle
+                r="{{elementRadius}}"
+                stroke="#eee"
+                transform="rotate(-90)"
+                fill="#fff"
+                stroke-width="{{elementStrokeWidth}}"
+                cx="0"
+                cy="0"
+              ></circle>
+              {{! this is the inner circle }}
+              {{! stroke=<color> is the inner circle color }}
+              <circle
+                stroke-dasharray="{{elementCircumference}}"
+                r="{{elementRadius}}"
+                stroke="{{elementColor}}"
+                transform="rotate(-90)"
+                fill="none"
+                stroke-dashoffset="{{elementStrokeOffset}}"
+                stroke-width="{{elementStrokeWidth}}"
+                cx="0"
+                cy="0"
+              ></circle>
+              <text text-anchor="middle" x="0" y="5" fill="{{elementColor}}" font-size="13">{{details.risk.score}}</text>
             </g>
+          </g>
         </svg>
+      </div>
     </div>
-</div>
 
-<div>
-    <h1 class="p-title">
-        {{fa-icon "exclamation-triangle" fixedWidth=true}} Risks
-    </h1>
     <div>
+      <h1 class="p-title">
+        {{fa-icon "exclamation-triangle" fixedWidth=true}}
+        Risks
+      </h1>
+      <div>
         <span class="p-key">Criticality: </span>
         <span class="p-value">{{details.risk.criticalityLabel}}</span>
-    </div>
-    <div>
+      </div>
+      <div>
         <span class="p-key">Rules Summary: </span>
         <span class="p-value">{{details.risk.riskSummary}}</span>
-    </div>
-    <div>
+      </div>
+      <div>
         <span class="p-key">Score: </span>
         <span class="p-value">{{details.risk.score}}</span>
+      </div>
     </div>
-</div>
 
-
-{{#if (gt details.risk.evidenceDetails.length 0)}}
-    <div>
+    {{#if (gt details.risk.evidenceDetails.length 0)}}
+      <div>
         <h1 class="p-title">
-          {{fa-icon "info-circle" fixedWidth=true}} Risk Details
+          {{fa-icon "info-circle" fixedWidth=true}}
+          Risk Details
         </h1>
         {{#each details.risk.evidenceDetails as |evidence|}}
-        <div>
+          <div>
             <div class="p-key">{{evidence.rule}}</div>
             <div class="p-value text-block">{{evidence.evidenceString}}</div>
-        </div>
-        <br />
+          </div>
+          <br />
         {{/each}}
-    </div>
-{{/if}}
+      </div>
+    {{/if}}
 
-{{#if hasLocation}}
-    <h1 class="p-title">
-        {{fa-icon "location" fixedWidth=true}} Location
-    </h1>
-    <div>
+    {{#if hasLocation}}
+      <h1 class="p-title">
+        {{fa-icon "location" fixedWidth=true}}
+        Location
+      </h1>
+      <div>
         <span class="p-key">Country: </span>
         <span class="p-value">{{details.location.location.country}}</span>
-    </div>
-    {{#if details.location.location.city}}
+      </div>
+      {{#if details.location.location.city}}
         <div>
-            <span class="p-key">City: </span>
-            <span class="p-value">{{details.location.location.city}}</span>
+          <span class="p-key">City: </span>
+          <span class="p-value">{{details.location.location.city}}</span>
         </div>
+      {{/if}}
+      {{#if details.location.organization}}
+        <div>
+          <span class="p-key">Organization: </span>
+          <span class="p-value">{{details.location.organization}}</span>
+        </div>
+      {{/if}}
     {{/if}}
-    {{#if details.location.organization}}
-    <div>
-        <span class="p-key">Organization: </span>
-        <span class="p-value">{{details.location.organization}}</span>
-    </div>
+
+    {{#if hasSightings}}
+      <div>
+        <h1 class="p-title">
+          {{fa-icon "binoculars" fixedWidth=true}}
+          Sightings
+        </h1>
+        {{#each details.sightings as |sighting|}}
+          <div>
+            <span class="p-key">Title</span>
+            <span class="p-value">{{sighting.title}}</span>
+          </div>
+          <div>
+            <span class="p-key">Source</span>
+            <span class="p-value">{{sighting.source}}</span>
+          </div>
+          <a class="p-link" href="{{sighting.url}}">View source</a>
+          <br />
+          <br />
+        {{/each}}
+      </div>
     {{/if}}
+  {{else}}
+    No Results Found in {{block.name}} for this entity
+  {{/if}}
 {{/if}}
-
-{{#if hasSightings}}
-<div>
-    <h1 class="p-title">
-        {{fa-icon "binoculars" fixedWidth=true}} Sightings
-    </h1>
-    {{#each details.sightings as |sighting|}}
-      <div>
-          <span class="p-key">Title</span>
-          <span class="p-value">{{sighting.title}}</span>
-      </div>
-      <div>
-          <span class="p-key">Source</span>
-          <span class="p-value">{{sighting.source}}</span>
-      </div>
-      <a class="p-link" href="{{sighting.url}}">View source</a>
-      <br />
-      <br />
-    {{/each}}
-</div>
-{{/if}}
-
