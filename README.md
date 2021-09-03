@@ -26,6 +26,14 @@ Domains that match the given regex will not be looked up (if blank, no domains w
 
 IPs that match the given regex will not be looked up (if blank, no IPs will be ignored)
 
+### Max Concurrent Requests
+
+Maximum number of concurrent requests. Integration must be restarted after changing this option. Defaults to 3.
+
+### Minimum Time Between Lookups
+
+Minimum amount of time in milliseconds between lookups (defaults to 250). Integration must be restarted after changing this option. Defaults to 250.
+
 ## Installation Instructions
 
 Installation instructions for integrations are provided on the [PolarityIO GitHub Page](https://polarityio.github.io/).

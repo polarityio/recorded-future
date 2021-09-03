@@ -22,7 +22,7 @@ module.exports = {
    * @type String
    * @optional
    */
-  description: 'Gain access to Recorded Future\'s relevant cyber threat insights in real time',
+  description: "Gain access to Recorded Future's relevant cyber threat insights in real time",
   entityTypes: ['ipv4', 'hash', 'domain', 'url', 'cve'],
   defaultColor: 'light-pink',
   /**
@@ -121,8 +121,7 @@ module.exports = {
     {
       key: 'domainBlocklistRegex',
       name: 'Domain Ignore List Regex',
-      description:
-        'Domains that match the given regex will not be looked up (if blank, no domains will be ignored)',
+      description: 'Domains that match the given regex will not be looked up (if blank, no domains will be ignored)',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -136,6 +135,26 @@ module.exports = {
       type: 'text',
       userCanEdit: false,
       adminOnly: false
+    },
+    {
+      key: 'maxConcurrent',
+      name: 'Max Concurrent Requests',
+      description:
+        'Maximum number of concurrent requests.  Integration must be restarted after changing this option. Defaults to 50.',
+      default: 50,
+      type: 'number',
+      userCanEdit: false,
+      adminOnly: true
+    },
+    {
+      key: 'minTime',
+      name: 'Minimum Time Between Lookups',
+      description:
+        'Minimum amount of time in milliseconds between lookups.  Integration must be restarted after changing this option. Defaults to 100.',
+      default: 100,
+      type: 'number',
+      userCanEdit: false,
+      adminOnly: true
     }
   ]
 };
