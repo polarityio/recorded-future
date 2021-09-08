@@ -333,6 +333,21 @@ function validateOptions(options, callback) {
       message: 'Minimum Score must be 0 or higher'
     });
   }
+
+  if (options.maxConcurrent.value < 1) {
+    errors = errors.concat({
+      key: 'maxConcurrent',
+      message: 'Max Concurrent Requests must be 1 or higher'
+    });
+  }
+  
+  if (options.minTime.value < 1) {
+    errors = errors.concat({
+      key: 'minTime',
+      message: 'Minimum Time Between Lookups must be 1 or higher'
+    });
+  }
+
   callback(null, errors);
 }
 
