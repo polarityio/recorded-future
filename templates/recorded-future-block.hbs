@@ -1,21 +1,25 @@
 {{#if details.errorMessage}}
-  <div class="mt-2">
-    <div class="alert alert-danger">
-      <pre>{{details.errorMessage}}</pre>
-    </div>
-    {{#if (not (eq details.allowRetry false))}}
-      <button type="button" class="p-btn btn btn-sm btn-secondary retry-btn mt-2" {{action "retryLookup"}}>
-        {{#if running}}
-          {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
-        {{else}}
-          Retry Search
-        {{/if}}
-      </button>
-      <div class="mt-1">
-        <span class="p-footnote"> You can retry your search by pressing the "Retry Search" button.</span>
-      </div>
-    {{/if}}
+  <div class="error-container">
+    {{details.errorMessage}}
   </div>
+  {{#if (not (eq details.allowRetry false))}}
+    <div class="mt-1">
+      <a class="p-link" href="https://app.recordedfuture.com/live/sc/entity">Run Search via Recorded Future Web Interface {{fa-icon "external-link-square" class="external-link-icon"}}</a>
+    </div>
+    <div>
+      <span class="p-footnote">Use the link to run this search via the Recorded Future website.</span>
+    </div>
+    <button type="button" class="p-btn btn btn-sm btn-polarity retry-btn mt-2" {{action "retryLookup"}}>
+      {{#if running}}
+        {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
+      {{else}}
+        Retry Search
+      {{/if}}
+    </button>
+    <div class="mt-1">
+      <span class="p-footnote"> You can retry your search by pressing the "Retry Search" button.</span>
+    </div>
+  {{/if}}
 {{else}}
   {{#if details}}
     {{#if hasLink}}

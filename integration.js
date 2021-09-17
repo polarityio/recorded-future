@@ -145,8 +145,8 @@ function doLookup(entities, options, callback) {
             entity,
             isVolatile: true,
             data: {
-              summary: ['Search Limit Reached'],
-              details: { errorMessage: 'Search failed due to too many requests to Recorded Future at one time.' }
+              summary: ['! Search Limit Reached'],
+              details: { errorMessage: "Search failed due to Recorded Future's API reaching it's limit." }
             }
           };
 
@@ -195,7 +195,6 @@ function doLookup(entities, options, callback) {
 }
 
 const _lookupEntity = (entity, options, host, callback) => {
-
   let requestOptions = {
     qs: {
       fields: ['risk', 'intelCard', 'sightings'].join(',')
@@ -236,17 +235,22 @@ const _lookupEntity = (entity, options, host, callback) => {
         err.message ||
         (err.statusCode === 401 && 'API Key is not working and could be incorrect') ||
         'Unknown Cause';
-
+        
       const optionalStatusCode =
         err.statusCode || data.status ? `.\n\nStatus Code: ${err.statusCode || data.status}` : '';
 
       const optionalTraceId = data.traceId ? `\n\nTrace ID: ${data.traceId}` : '';
 
+      Logger.warn(
+        { errorMessage: baseErrorMessage, statusCode: optionalStatusCode, traceId: optionalTraceId },
+        'Search Returned Error '
+      );
+
       return callback(null, {
         entity,
         isVolatile: true,
         data: {
-          summary: ['Search Returned Error'],
+          summary: [err.statusCode === 403 ? '! API Quota Exceeded': '! Search Returned Error'],
           details: {
             errorMessage: `${baseErrorMessage}${optionalStatusCode}${optionalTraceId}`,
             allowRetry: err.statusCode !== 401
