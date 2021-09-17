@@ -213,7 +213,7 @@ const _lookupEntity = (entity, options, host, callback) => {
   } else if (entity.isHash) {
     requestOptions.url = host + '/v2/hash/' + entity.value;
   } else if (entity.isDomain) {
-    requestOptions.url = host + '/v2/domain/' + entity.value;
+    requestOptions.url = host + '/v2/domain/' + encodeURIComponent(entity.value);
   } else if (entity.isURL) {
     requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
   } else if (entity.type === 'cve') {
