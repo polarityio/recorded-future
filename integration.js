@@ -6,7 +6,6 @@ const Bottleneck = require('bottleneck');
 
 let Logger;
 let requestWithDefaults;
-let requestOptions = {};
 let limiter;
 
 const BASE_URL = 'https://api.recordedfuture.com';
@@ -280,6 +279,7 @@ const _lookupEntity = (entity, options, host, callback) => {
 
 function startup(logger) {
   Logger = logger;
+  let requestOptions = {};
 
   if (typeof config.request.cert === 'string' && config.request.cert.length > 0) {
     requestOptions.cert = fs.readFileSync(config.request.cert);
