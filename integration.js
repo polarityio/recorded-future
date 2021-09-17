@@ -133,9 +133,9 @@ function doLookup(entities, options, callback) {
         const maxRequestQueueLimitHit =
           (_.isEmpty(err) && _.isEmpty(result)) || (err && err.message === 'This job has been dropped by Bottleneck');
 
-        const statusCode = _.get(err, 'errors[0].status', '');
-        const isGatewayTimeout = statusCode === '502' || statusCode === '504';
-        const isConnectionReset = _.get(err, 'errors[0].meta.err.code', '') === 'ECONNRESET';
+        const statusCode = _.get(err, 'err.statusCode', '');
+        const isGatewayTimeout = statusCode === 502 || statusCode === 504;
+        const isConnectionReset = _.get(err, 'err.error.code', '') === 'ECONNRESET';
 
         if (maxRequestQueueLimitHit || isConnectionReset || isGatewayTimeout) {
           // Tracking for logging purposes
@@ -195,6 +195,7 @@ function doLookup(entities, options, callback) {
 }
 
 const _lookupEntity = (entity, options, host, callback) => {
+
   let requestOptions = {
     qs: {
       fields: ['risk', 'intelCard', 'sightings'].join(',')
