@@ -36,7 +36,6 @@ function handleRequestError(request) {
           statusCode: resp ? resp.statusCode : 'unknown',
           body
         };
-        Logger.error(errorResult, 'Request or Status Code Error');
         callback(errorResult, body);
       } else {
         callback(null, body);
@@ -256,7 +255,7 @@ const _lookupEntity = (entity, options, host, callback) => {
     }
 
     if (err) {
-      Logger.error('error looking up entity', { entity });
+      Logger.error(err, 'Request Error');
       callback({
         detail: 'Unexpected Error',
         err,
