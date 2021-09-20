@@ -108,7 +108,6 @@ function _isEntityBlocklisted(entityObj, options) {
   return false;
 }
 
-
 function doLookup(entities, options, callback) {
   const lookupResults = [];
   const errors = [];
@@ -146,7 +145,10 @@ function doLookup(entities, options, callback) {
             isVolatile: true,
             data: {
               summary: [' ! Search Limit Reached'],
-              details: { errorMessage: "Search failed due to Recorded Future's API reaching it's limit." }
+              details: {
+                errorMessage:
+                  'The search failed due to a temporary Recorded Future API search limit. You can retry your search by pressing the "Retry Search" button.'
+              }
             }
           };
 
@@ -222,22 +224,25 @@ const _lookupEntity = (entity, options, host, callback) => {
   }
 
   requestWithDefaults(requestOptions, 200, (err, data) => {
-    const entityNotFound = (err && err.statusCode === 404)
-    const entityDoesNotHaveMinScore = (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
+    const entityNotFound = err && err.statusCode === 404;
+    const entityDoesNotHaveMinScore =
+      (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
         ? data.data.risk.score
-        : options.minimumScore) < options.minimumScore
+        : options.minimumScore) < options.minimumScore;
 
     if (entityNotFound || entityDoesNotHaveMinScore) return callback(null, { entity, data: null });
     if (err && [403, 401].includes(err.statusCode)) {
       const baseErrorMessage =
         (data && data.error && (data.error.message || data.error.reason)) ||
         err.message ||
-        (err.statusCode === 401 && 'Unable to authenticate with Recorded Future.  The API Key is not valid.') ||
-        (err.statusCode === 403 && 'You have reached your Recorded Future API Search Quota.  Please check your Recorded Future account for details on your quota.') ||
+        (err.statusCode === 401 &&
+          'Unable to authenticate with Recorded Future.  The API Key is not valid.  Please open your Recorded Future integration settings and change your API key.') ||
+        (err.statusCode === 403 &&
+          'You have reached your Recorded Future API Search Quota.  Please check your Recorded Future account for details on your quota.') ||
         'Unknown Cause';
-        
+
       const optionalStatusCode = err.statusCode || (data && data.status);
-      const optionalTraceId = (data && data.traceId) ? `(Trace ID: ${data.traceId})` : '';
+      const optionalTraceId = data && data.traceId ? `(Trace ID: ${data.traceId})` : '';
 
       Logger.warn(
         { errorMessage: baseErrorMessage, statusCode: optionalStatusCode, traceId: optionalTraceId },
@@ -248,7 +253,7 @@ const _lookupEntity = (entity, options, host, callback) => {
         entity,
         isVolatile: true,
         data: {
-          summary: [err.statusCode === 403 ? '! Search API Quota Exceeded': '! Auth Failed: Invalid API Key'],
+          summary: [err.statusCode === 403 ? '! Search API Quota Exceeded' : '! Auth Failed: Invalid API Key'],
           details: {
             errorMessage: `${baseErrorMessage}${optionalTraceId}`,
             allowRetry: err.statusCode !== 401
@@ -342,7 +347,7 @@ function validateOptions(options, callback) {
       message: 'Max Concurrent Requests must be 1 or higher'
     });
   }
-  
+
   if (options.minTime.value < 1) {
     errors = errors.concat({
       key: 'minTime',
