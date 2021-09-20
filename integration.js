@@ -1,11 +1,12 @@
-const async = require('async');
 const config = require('./config/config');
 const request = require('request');
 const fs = require('fs');
+const _ = require('lodash');
+const Bottleneck = require('bottleneck');
 
 let Logger;
 let requestWithDefaults;
-let requestOptions = {};
+let limiter;
 
 const BASE_URL = 'https://api.recordedfuture.com';
 
@@ -16,11 +17,26 @@ let previousIpRegexAsString = '';
 let domainBlocklistRegex = null;
 let ipBlocklistRegex = null;
 
+function _setupLimiter(options) {
+  limiter = new Bottleneck({
+    maxConcurrent: Number.parseInt(options.maxConcurrent, 10), // no more than 5 lookups can be running at single time
+    highWater: 100, // no more than 100 lookups can be queued up
+    strategy: Bottleneck.strategy.OVERFLOW,
+    minTime: Number.parseInt(options.minTime, 10) // don't run lookups faster than 1 every 200 ms
+  });
+}
+
 function handleRequestError(request) {
   return (options, expectedStatusCode, callback) => {
     return request(options, (err, resp, body) => {
       if (err || resp.statusCode !== expectedStatusCode) {
-        callback({ error: err, statusCode: resp ? resp.statusCode : 'unknown' });
+        const error = err && JSON.parse(JSON.stringify(err, Object.getOwnPropertyNames(err)));
+        const errorResult = {
+          error,
+          statusCode: resp ? resp.statusCode : 'unknown',
+          body
+        };
+        callback(errorResult, body);
       } else {
         callback(null, body);
       }
@@ -93,7 +109,15 @@ function _isEntityBlocklisted(entityObj, options) {
 }
 
 function doLookup(entities, options, callback) {
-  // this is only used for testing purposes
+  const lookupResults = [];
+  const errors = [];
+  const blockedEntities = [];
+  let numConnectionResets = 0;
+  let numThrottled = 0;
+  let hasAnyValidEntities = false;
+
+  if (!limiter) _setupLimiter(options);
+
   let host = BASE_URL;
   if (options.host) {
     host = options.host;
@@ -101,96 +125,169 @@ function doLookup(entities, options, callback) {
 
   _setupRegexBlocklists(options);
 
-  let results = [];
+  entities.forEach((entity) => {
+    if (!_isEntityBlocklisted(entity)) {
+      hasAnyValidEntities = true;
+      limiter.submit(_lookupEntity, entity, options, host, (err, result) => {
+        const maxRequestQueueLimitHit =
+          (_.isEmpty(err) && _.isEmpty(result)) || (err && err.message === 'This job has been dropped by Bottleneck');
 
-  async.forEach(
-    entities,
-    (entity, done) => {
-      if (_isEntityBlocklisted(entity)) {
-        results.push({
-          entity: entity,
-          data: null
-        });
-        done();
-        return;
-      }
+        const statusCode = _.get(err, 'err.statusCode', '');
+        const isGatewayTimeout = statusCode === 502 || statusCode === 504;
+        const isConnectionReset = _.get(err, 'err.error.code', '') === 'ECONNRESET';
 
-      let requestOptions = {
-        qs: {
-          fields: ['risk', 'intelCard', 'sightings'].join(',')
-        },
-        headers: {
-          'X-RFToken': options.apiKey,
-          'X-RF-User-Agent': 'polarity'
-        }
-      };
+        if (maxRequestQueueLimitHit || isConnectionReset || isGatewayTimeout) {
+          // Tracking for logging purposes
+          if (isConnectionReset || isGatewayTimeout) numConnectionResets++;
+          if (maxRequestQueueLimitHit) numThrottled++;
+          const resultObject = {
+            entity,
+            isVolatile: true,
+            data: {
+              summary: [' ! Search Limit Reached'],
+              details: {
+                errorMessage:
+                  'The search failed due to a temporary Recorded Future API search limit. You can retry your search by pressing the "Retry Search" button.'
+              }
+            }
+          };
 
-      if (entity.isIP) {
-        requestOptions.url = host + '/v2/ip/' + entity.value;
-        requestOptions.qs.fields = requestOptions.qs.fields.split(',').concat('location').join(',');
-      } else if (entity.isHash) {
-        requestOptions.url = host + '/v2/hash/' + entity.value;
-      } else if (entity.isDomain) {
-        requestOptions.url = host + '/v2/domain/' + entity.value;
-      } else if (entity.isURL) {
-        requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
-      } else if (entity.type === 'cve') {
-        requestOptions.url = host + '/v2/vulnerability/' + entity.value;
-      } else {
-        done({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
-        return;
-      }
+          resultObject.data.details.general = {
+            maxRequestQueueLimitHit,
+            isConnectionReset,
+            isGatewayTimeout
+          };
 
-      requestWithDefaults(requestOptions, 200, (err, data) => {
-        if ((err && err.statusCode === 404) || (data && data.data.risk.score < options.minimumScore)) {
-          results.push({
-            entity: entity,
-            data: null
-          });
-          done();
-          return;
+          lookupResults.push(resultObject);
+        } else if (err) {
+          errors.push(err);
+        } else {
+          lookupResults.push(result);
         }
 
-        if (err && err.statusCode === 403) {
-          Logger.error('API Quota exceeded');
-          done({ detail: 'API quota exceeded', err: err });
-          return;
-        }
-
-        if (err && err.statusCode !== 404) {
-          Logger.error('error looking up entity', { entity: entity });
-          done({
-            detail: 'Unexpected Error',
-            err
-          });
-          return;
-        }
-
-        let risk = data.data.risk;
-
-        results.push({
-          entity: entity,
-          data: {
-            summary: [risk.criticalityLabel, `Risk Score: ${risk.score}`, `Rules: ${risk.riskString}`],
-            details: data.data
+        if (lookupResults.length + errors.length === entities.length) {
+          if (numConnectionResets > 0 || numThrottled > 0) {
+            Logger.warn(
+              {
+                numEntitiesLookedUp: entities.length,
+                numConnectionResets: numConnectionResets,
+                numLookupsThrottled: numThrottled
+              },
+              'Lookup Limit Error'
+            );
           }
-        });
-        Logger.trace({ results }, 'Results');
-        done();
+          // we got all our results
+          if (errors.length > 0) {
+            callback(errors);
+          } else {
+            Logger.trace({ lookupResults }, 'Lookup Results');
+            callback(null, lookupResults);
+          }
+        }
       });
-    },
-    (err) => {
-      if (err) {
-        Logger.error('Error during lookup', { err: err });
-      }
-
-      callback(err, results);
+    } else {
+      blockedEntities.push({ entity, data: null });
     }
-  );
+  });
+
+  // This can occur if there are no valid entities to lookup so we need a safe guard to make
+  // sure we still call the callback.
+  if (!hasAnyValidEntities) {
+    callback(null, blockedEntities);
+  }
 }
+
+const _lookupEntity = (entity, options, host, callback) => {
+  let requestOptions = {
+    qs: {
+      fields: ['risk', 'intelCard', 'sightings'].join(',')
+    },
+    headers: {
+      'X-RFToken': options.apiKey,
+      'X-RF-User-Agent': 'polarity'
+    }
+  };
+
+  if (entity.isIP) {
+    requestOptions.url = host + '/v2/ip/' + entity.value;
+    requestOptions.qs.fields = requestOptions.qs.fields.split(',').concat('location').join(',');
+  } else if (entity.isHash) {
+    requestOptions.url = host + '/v2/hash/' + entity.value;
+  } else if (entity.isDomain) {
+    requestOptions.url = host + '/v2/domain/' + encodeURIComponent(entity.value);
+  } else if (entity.isURL) {
+    requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
+  } else if (entity.type === 'cve') {
+    requestOptions.url = host + '/v2/vulnerability/' + entity.value;
+  } else {
+    callback({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
+    return;
+  }
+
+  requestWithDefaults(requestOptions, 200, (err, data) => {
+    const entityNotFound = err && err.statusCode === 404;
+    const entityDoesNotHaveMinScore =
+      (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
+        ? data.data.risk.score
+        : options.minimumScore) < options.minimumScore;
+
+    if (entityNotFound || entityDoesNotHaveMinScore) return callback(null, { entity, data: null });
+    if (err && [403, 401].includes(err.statusCode)) {
+      const baseErrorMessage =
+        (data && data.error && (data.error.message || data.error.reason)) ||
+        err.message ||
+        (err.statusCode === 401 &&
+          'Unable to authenticate with Recorded Future.  The API Key is not valid.  Please open your Recorded Future integration settings and change your API key.') ||
+        (err.statusCode === 403 &&
+          'You have reached your Recorded Future API Search Quota.  Please check your Recorded Future account for details on your quota.') ||
+        'Unknown Cause';
+
+      const optionalStatusCode = err.statusCode || (data && data.status);
+      const optionalTraceId = data && data.traceId ? `(Trace ID: ${data.traceId})` : '';
+
+      Logger.warn(
+        { errorMessage: baseErrorMessage, statusCode: optionalStatusCode, traceId: optionalTraceId },
+        'Search Returned Error '
+      );
+
+      return callback(null, {
+        entity,
+        isVolatile: true,
+        data: {
+          summary: [err.statusCode === 403 ? '! Search API Quota Exceeded' : '! Auth Failed: Invalid API Key'],
+          details: {
+            errorMessage: `${baseErrorMessage}${optionalTraceId}`,
+            allowRetry: err.statusCode !== 401
+          }
+        }
+      });
+    }
+
+    if (err) {
+      Logger.error(err, 'Request Error');
+      callback({
+        detail: 'Unexpected Error',
+        err,
+        data
+      });
+      return;
+    }
+
+    let risk = data.data.risk;
+
+    callback(null, {
+      entity,
+      data: {
+        summary: [risk.criticalityLabel, `Risk Score: ${risk.score}`, `Rules: ${risk.riskString}`],
+        details: data.data
+      }
+    });
+  });
+};
 
 function startup(logger) {
   Logger = logger;
+  let requestOptions = {};
 
   if (typeof config.request.cert === 'string' && config.request.cert.length > 0) {
     requestOptions.cert = fs.readFileSync(config.request.cert);
@@ -238,11 +335,53 @@ function validateOptions(options, callback) {
 
   validateStringOption(errors, options, 'apiKey', 'You must provide an API key.');
 
+  if (options.minimumScore.value < 0) {
+    errors = errors.concat({
+      key: 'minimumScore',
+      message: 'Minimum Score must be 0 or higher'
+    });
+  }
+
+  if (options.maxConcurrent.value < 1) {
+    errors = errors.concat({
+      key: 'maxConcurrent',
+      message: 'Max Concurrent Requests must be 1 or higher'
+    });
+  }
+
+  if (options.minTime.value < 1) {
+    errors = errors.concat({
+      key: 'minTime',
+      message: 'Minimum Time Between Lookups must be 1 or higher'
+    });
+  }
+
   callback(null, errors);
 }
 
+function onMessage(payload, options, callback) {
+  switch (payload.action) {
+    case 'RETRY_LOOKUP':
+      doLookup([payload.entity], options, (err, lookupResults) => {
+        if (err) {
+          Logger.error({ err }, 'Error retrying lookup');
+          callback(err);
+        } else {
+          callback(
+            null,
+            lookupResults && lookupResults[0] && lookupResults[0].data === null
+              ? { data: { summary: ['No Results Found on Retry'] } }
+              : lookupResults[0]
+          );
+        }
+      });
+      break;
+  }
+}
+
 module.exports = {
-  doLookup: doLookup,
-  startup: startup,
-  validateOptions: validateOptions
+  doLookup,
+  startup,
+  onMessage,
+  validateOptions
 };

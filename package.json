@@ -1,23 +1,20 @@
 {
   "main": "./integration.js",
   "name": "recorded-future",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "private": true,
   "license": "MIT",
   "author": "Polarity",
   "dependencies": {
-    "request": "^2.88",
-    "async": "^3.2.0"
+    "bottleneck": "^2.19.5",
+    "lodash": "^4.17.21",
+    "request": "^2.88"
   },
   "devDependencies": {
-    "bunyan": "^1.8.14",
-    "chai": "^3.5.0",
-    "mocha": "^8.0.1",
-    "mountebank": "^2.2.1"
+    "jest": "^27.1.0",
+    "nock": "^13.1.3"
   },
   "scripts": {
-    "pretest": "mb start --configfile imposters.json --mock &",
-    "test": "mocha --recursive || mb stop",
-    "posttest": "mb stop"
+    "test": "jest"
   }
 }
