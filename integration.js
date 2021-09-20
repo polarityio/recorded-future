@@ -145,7 +145,7 @@ function doLookup(entities, options, callback) {
             entity,
             isVolatile: true,
             data: {
-              summary: ['! Search Limit Reached'],
+              summary: [' ! Search Limit Reached'],
               details: { errorMessage: "Search failed due to Recorded Future's API reaching it's limit." }
             }
           };
@@ -228,18 +228,16 @@ const _lookupEntity = (entity, options, host, callback) => {
         : options.minimumScore) < options.minimumScore
 
     if (entityNotFound || entityDoesNotHaveMinScore) return callback(null, { entity, data: null });
-
     if (err && [403, 401].includes(err.statusCode)) {
       const baseErrorMessage =
-        (data.error && (data.error.message || data.error.reason)) ||
+        (data && data.error && (data.error.message || data.error.reason)) ||
         err.message ||
-        (err.statusCode === 401 && 'API Key is not working and could be incorrect') ||
+        (err.statusCode === 401 && 'Unable to authenticate with Recorded Future.  The API Key is not valid.') ||
+        (err.statusCode === 403 && 'You have reached your Recorded Future API Search Quota.  Please check your Recorded Future account for details on your quota.') ||
         'Unknown Cause';
         
-      const optionalStatusCode =
-        err.statusCode || data.status ? `.\n\nStatus Code: ${err.statusCode || data.status}` : '';
-
-      const optionalTraceId = data.traceId ? `\n\nTrace ID: ${data.traceId}` : '';
+      const optionalStatusCode = err.statusCode || (data && data.status);
+      const optionalTraceId = (data && data.traceId) ? `(Trace ID: ${data.traceId})` : '';
 
       Logger.warn(
         { errorMessage: baseErrorMessage, statusCode: optionalStatusCode, traceId: optionalTraceId },
@@ -250,9 +248,9 @@ const _lookupEntity = (entity, options, host, callback) => {
         entity,
         isVolatile: true,
         data: {
-          summary: [err.statusCode === 403 ? '! API Quota Exceeded': '! Search Returned Error'],
+          summary: [err.statusCode === 403 ? '! Search API Quota Exceeded': '! Auth Failed: Invalid API Key'],
           details: {
-            errorMessage: `${baseErrorMessage}${optionalStatusCode}${optionalTraceId}`,
+            errorMessage: `${baseErrorMessage}${optionalTraceId}`,
             allowRetry: err.statusCode !== 401
           }
         }
