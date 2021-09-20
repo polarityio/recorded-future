@@ -42,6 +42,29 @@ polarity.export = PolarityComponent.extend({
       return this.get('greenThreat');
     }
   },
+  searchLink: Ember.computed('block.entity.value','block.entity.type', function(){
+    const type = this.get('block.entity.type');
+    const value = this.get('block.entity.value');
+    switch(type){
+      case 'IPv4':
+        return `https://app.recordedfuture.com/live/sc/entity/ip%3A${value}`
+        break;
+      case 'url':
+        return `https://app.recordedfuture.com/live/sc/entity`
+        break;
+      case 'domain':
+        return `https://app.recordedfuture.com/live/sc/entity/idn%3A${value.toLowerCase()}`
+        break;
+      case 'hash':
+        return `https://app.recordedfuture.com/live/sc/entity/hash%3A${value.toLowerCase()}`
+        break;
+      case 'cve':
+        return 'https://app.recordedfuture.com/live/sc/entity'
+        break;
+      default:
+        return 'https://app.recordedfuture.com/live/sc/entity'
+    }
+  }),
   hasLocation: Ember.computed('block.data.details', function () {
     let details = this.get('block.data.details');
     if (details.location && details.location.location) {
