@@ -165,7 +165,7 @@ function doLookup(entities, options, callback) {
           lookupResults.push(result);
         }
 
-        if (lookupResults.length + errors.length === entities.length) {
+        if (lookupResults.length + errors.length + blockedEntities.length === entities.length) {
           if (numConnectionResets > 0 || numThrottled > 0) {
             Logger.warn(
               {
