@@ -66,6 +66,19 @@ test('504 response should result in `isGatewayTimeout`', (done) => {
   });
 });
 
+test('500 response should result in `isGatewayTimeout`', (done) => {
+  const scope = nock('https://api.recordedfuture.com').get(/.*/).reply(500);
+  doLookup([ip], options, (err, lookupResults) => {
+    //console.info(JSON.stringify(lookupResults, null, 4));
+    expect(lookupResults.length).toBe(1);
+    const details = lookupResults[0].data.details;
+    expect(details.general.maxRequestQueueLimitHit).toBe(false);
+    expect(details.general.isConnectionReset).toBe(false);
+    expect(details.general.isGatewayTimeout).toBe(true);
+    done();
+  });
+});
+
 test('ECONNRESET response should result in `isConnectionReset`', (done) => {
   const scope = nock('https://api.recordedfuture.com').get(/.*/).replyWithError({code: 'ECONNRESET'});
   doLookup([ip], options, (err, lookupResults) => {
@@ -79,12 +92,12 @@ test('ECONNRESET response should result in `isConnectionReset`', (done) => {
   });
 });
 
-test('500 response should return a normal integration error', (done) => {
-  const scope = nock('https://api.recordedfuture.com').get(/.*/).reply(500);
+test('400 response should return a normal integration error', (done) => {
+  const scope = nock('https://api.recordedfuture.com').get(/.*/).reply(400);
   doLookup([ip], options, (err, lookupResults) => {
     //console.info(JSON.stringify(err[0], null, 4));
     expect(err.length).toBe(1);
-    expect(err[0].err.statusCode).toBe(500);
+    expect(err[0].err.statusCode).toBe(400);
     done();
   });
 });
