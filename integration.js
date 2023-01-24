@@ -1,5 +1,5 @@
 const config = require('./config/config');
-const request = require('request');
+const request = require('postman-request');
 const fs = require('fs');
 const _ = require('lodash');
 const Bottleneck = require('bottleneck');
