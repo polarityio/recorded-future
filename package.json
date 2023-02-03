@@ -1,6 +1,6 @@
 {
   "name": "recorded-future",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "main": "./integration.js",
   "private": true,
   "license": "MIT",
