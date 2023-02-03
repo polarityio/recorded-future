@@ -17,7 +17,7 @@ let previousIpRegexAsString = '';
 let domainBlocklistRegex = null;
 let ipBlocklistRegex = null;
 
-function _setupLimiter(options) {
+function _setupLimiter (options) {
   limiter = new Bottleneck({
     maxConcurrent: Number.parseInt(options.maxConcurrent, 10), // no more than 5 lookups can be running at single time
     highWater: 100, // no more than 100 lookups can be queued up
@@ -26,7 +26,7 @@ function _setupLimiter(options) {
   });
 }
 
-function handleRequestError(request) {
+function handleRequestError (request) {
   return (options, expectedStatusCode, callback) => {
     return request(options, (err, resp, body) => {
       if (err || resp.statusCode !== expectedStatusCode) {
@@ -44,7 +44,7 @@ function handleRequestError(request) {
   };
 }
 
-function _setupRegexBlocklists(options) {
+function _setupRegexBlocklists (options) {
   if (options.domainBlocklistRegex !== previousDomainRegexAsString && options.domainBlocklistRegex.length === 0) {
     Logger.debug('Removing Domain Blocklist Regex Filtering');
     previousDomainRegexAsString = '';
@@ -82,7 +82,7 @@ function _setupRegexBlocklists(options) {
   }
 }
 
-function _isEntityBlocklisted(entityObj, options) {
+function _isEntityBlocklisted (entityObj, options) {
   if (domainBlockList.indexOf(entityObj.value) >= 0) {
     return true;
   }
@@ -108,7 +108,7 @@ function _isEntityBlocklisted(entityObj, options) {
   return false;
 }
 
-function doLookup(entities, options, callback) {
+function doLookup (entities, options, callback) {
   const lookupResults = [];
   const errors = [];
   const blockedEntities = [];
@@ -128,6 +128,7 @@ function doLookup(entities, options, callback) {
   entities.forEach((entity) => {
     if (!_isEntityBlocklisted(entity)) {
       hasAnyValidEntities = true;
+
       limiter.submit(_lookupEntity, entity, options, host, (err, result) => {
         const maxRequestQueueLimitHit =
           (_.isEmpty(err) && _.isEmpty(result)) || (err && err.message === 'This job has been dropped by Bottleneck');
@@ -200,7 +201,7 @@ function doLookup(entities, options, callback) {
 const _lookupEntity = (entity, options, host, callback) => {
   let requestOptions = {
     qs: {
-      fields: ['risk', 'intelCard', 'sightings'].join(',')
+      fields: ['risk', 'intelCard', 'sightings', 'analystnotes'].join(',')
     },
     headers: {
       'X-RFToken': options.apiKey,
@@ -225,6 +226,7 @@ const _lookupEntity = (entity, options, host, callback) => {
   }
 
   requestWithDefaults(requestOptions, 200, (err, data) => {
+    Logger.trace({ data, err }, 'Lookup Data');
     const entityNotFound = err && err.statusCode === 404;
     const entityDoesNotHaveMinScore =
       (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
@@ -285,7 +287,7 @@ const _lookupEntity = (entity, options, host, callback) => {
   });
 };
 
-function startup(logger) {
+function startup (logger) {
   Logger = logger;
   let requestOptions = {};
 
@@ -318,7 +320,7 @@ function startup(logger) {
   requestWithDefaults = handleRequestError(request.defaults(requestOptions));
 }
 
-function validateStringOption(errors, options, optionName, errMessage) {
+function validateStringOption (errors, options, optionName, errMessage) {
   if (
     typeof options[optionName].value !== 'string' ||
     (typeof options[optionName].value === 'string' && options[optionName].value.length === 0)
@@ -328,9 +330,16 @@ function validateStringOption(errors, options, optionName, errMessage) {
       message: errMessage
     });
   }
+
+  if (validateTrailingSlash(errors, options, optionName, 'Must remove trailing slash from input')) {
+    errors.push({
+      key: optionName,
+      message: 'Must remove trailing slash from input'
+    });
+  }
 }
 
-function validateOptions(options, callback) {
+function validateOptions (options, callback) {
   let errors = [];
 
   validateStringOption(errors, options, 'apiKey', 'You must provide an API key.');
@@ -359,7 +368,16 @@ function validateOptions(options, callback) {
   callback(null, errors);
 }
 
-function onMessage(payload, options, callback) {
+const validateTrailingSlash = (errors, options, optionName, errMessage) => {
+  if (typeof options[optionName].value === 'string' && options[optionName].value.trim().endsWith('/')) {
+    errors.push({
+      key: optionName,
+      message: errMessage
+    });
+  }
+};
+
+function onMessage (payload, options, callback) {
   switch (payload.action) {
     case 'RETRY_LOOKUP':
       doLookup([payload.entity], options, (err, lookupResults) => {

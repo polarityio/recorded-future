@@ -1,146 +1,221 @@
 {{#if details.errorMessage}}
   {{#if (not (eq details.allowRetry false))}}
-      <button type="button" class="p-btn btn btn-sm btn-polarity retry-btn" {{action "retryLookup"}}>
-          {{#if running}}
-              {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
-          {{else}}
-              Retry Search
-          {{/if}}
-      </button>
+    <button type='button' class='p-btn btn btn-sm btn-polarity retry-btn' {{action 'retryLookup'}}>
+      {{#if running}}
+        {{fa-icon icon='spinner-third' fixedWidth=true spin=true}}
+      {{else}}
+        Retry Search
+      {{/if}}
+    </button>
   {{/if}}
-  <div class="error-container">
-      {{details.errorMessage}}
+  <div class='error-container'>
+    {{details.errorMessage}}
   </div>
   {{#if (not (eq details.allowRetry false))}}
-      <div class="mt-1">
-          <a class="p-link" href="{{searchLink}}">Run Search via Recorded Future Web Interface {{fa-icon "external-link-square" class="external-link-icon"}}</a>
-      </div>
-      <div>
-          <span class="p-footnote">Use the link to run this search via the Recorded Future website.</span>
-      </div>
+    <div class='mt-1'>
+      <a class='p-link' href='{{searchLink}}'>Run Search via Recorded Future Web Interface
+        {{fa-icon 'external-link-square' class='external-link-icon'}}</a>
+    </div>
+    <div>
+      <span class='p-footnote'>Use the link to run this search via the Recorded Future website.</span>
+    </div>
   {{/if}}
 {{else}}
+  <ul class='nav nav-tabs'>
+    {{#if details}}
+      <li class='nav-item'>
+        <a
+          {{action 'changeTab' 'info'}}
+          class='nav-link {{if (or (eq activeTab "info") (not activeTab)) "active"}}'
+          href='#'
+        >
+          Info
+        </a>
+      </li>
+    {{/if}}
+    {{#if details.analystNotes.length}}
+      <li class='nav-item'>
+        <a
+          {{action 'changeTab' 'analystNotes'}}
+          class='nav-link {{if (eq activeTab "analystNotes") "active"}}'
+          href='#'
+        >
+          Analyst Notes
+        </a>
+      </li>
+    {{/if}}
+  </ul>
+
   {{#if details}}
-    {{#if hasLink}}
-      <div class="link-container">
-        <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
-      </div>
-    {{/if}}
-
-    <div class="indicator">
-      <div class="tic-gauge-container">
-        <svg x="0" y="0" width="30%" height="30%" viewBox="0 0 55 50">
-          <g transform="translate(28,25)">
-            <g>
-              <circle
-                r="{{elementRadius}}"
-                stroke="#eee"
-                transform="rotate(-90)"
-                fill="#fff"
-                stroke-width="{{elementStrokeWidth}}"
-                cx="0"
-                cy="0"
-              ></circle>
-              {{! this is the inner circle }}
-              {{! stroke=<color> is the inner circle color }}
-              <circle
-                stroke-dasharray="{{elementCircumference}}"
-                r="{{elementRadius}}"
-                stroke="{{elementColor}}"
-                transform="rotate(-90)"
-                fill="none"
-                stroke-dashoffset="{{elementStrokeOffset}}"
-                stroke-width="{{elementStrokeWidth}}"
-                cx="0"
-                cy="0"
-              ></circle>
-              <text text-anchor="middle" x="0" y="5" fill="{{elementColor}}" font-size="13">{{details.risk.score}}</text>
+    {{#if (eq activeTab 'info')}}
+      {{#if hasLink}}
+        <div class='link-container'>
+          <a class='p-link' href='{{details.intelCard}}'>View in Recorded Future</a>
+        </div>
+      {{/if}}
+      <div class='indicator'>
+        <div class='tic-gauge-container'>
+          <svg x='0' y='0' width='30%' height='30%' viewBox='0 0 55 50'>
+            <g transform='translate(28,25)'>
+              <g>
+                <circle
+                  r='{{elementRadius}}'
+                  stroke='#eee'
+                  transform='rotate(-90)'
+                  fill='#fff'
+                  stroke-width='{{elementStrokeWidth}}'
+                  cx='0'
+                  cy='0'
+                ></circle>
+                {{! this is the inner circle }}
+                {{! stroke=<color> is the inner circle color }}
+                <circle
+                  stroke-dasharray='{{elementCircumference}}'
+                  r='{{elementRadius}}'
+                  stroke='{{elementColor}}'
+                  transform='rotate(-90)'
+                  fill='none'
+                  stroke-dashoffset='{{elementStrokeOffset}}'
+                  stroke-width='{{elementStrokeWidth}}'
+                  cx='0'
+                  cy='0'
+                ></circle>
+                <text
+                  text-anchor='middle'
+                  x='0'
+                  y='5'
+                  fill='{{elementColor}}'
+                  font-size='13'
+                >{{details.risk.score}}</text>
+              </g>
             </g>
-          </g>
-        </svg>
+          </svg>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <h1 class="p-title">
-        {{fa-icon "exclamation-triangle" fixedWidth=true}}
-        Risks
-      </h1>
       <div>
-        <span class="p-key">Criticality: </span>
-        <span class="p-value">{{details.risk.criticalityLabel}}</span>
-      </div>
-      <div>
-        <span class="p-key">Rules Summary: </span>
-        <span class="p-value">{{details.risk.riskSummary}}</span>
-      </div>
-      <div>
-        <span class="p-key">Score: </span>
-        <span class="p-value">{{details.risk.score}}</span>
-      </div>
-    </div>
-
-    {{#if (gt details.risk.evidenceDetails.length 0)}}
-      <div>
-        <h1 class="p-title">
-          {{fa-icon "info-circle" fixedWidth=true}}
-          Risk Details
+        <h1 class='p-title'>
+          {{fa-icon 'exclamation-triangle' fixedWidth=true}}
+          Risks
         </h1>
-        {{#each details.risk.evidenceDetails as |evidence|}}
-          <div>
-            <div class="p-key">{{evidence.rule}}</div>
-            <div class="p-value text-block">{{evidence.evidenceString}}</div>
-          </div>
-          <br />
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if hasLocation}}
-      <h1 class="p-title">
-        {{fa-icon "location" fixedWidth=true}}
-        Location
-      </h1>
-      <div>
-        <span class="p-key">Country: </span>
-        <span class="p-value">{{details.location.location.country}}</span>
-      </div>
-      {{#if details.location.location.city}}
         <div>
-          <span class="p-key">City: </span>
-          <span class="p-value">{{details.location.location.city}}</span>
+          <span class='p-key'>Criticality: </span>
+          <span class='p-value'>{{details.risk.criticalityLabel}}</span>
+        </div>
+        <div>
+          <span class='p-key'>Rules Summary: </span>
+          <span class='p-value'>{{details.risk.riskSummary}}</span>
+        </div>
+        <div>
+          <span class='p-key'>Score: </span>
+          <span class='p-value'>{{details.risk.score}}</span>
+        </div>
+      </div>
+
+      {{#if (gt details.risk.evidenceDetails.length 0)}}
+        <div>
+          <h1 class='p-title'>
+            {{fa-icon 'info-circle' fixedWidth=true}}
+            Risk Details
+          </h1>
+          {{#each details.risk.evidenceDetails as |evidence|}}
+            <div>
+              <div class='p-key'>{{evidence.rule}}</div>
+              <div class='p-value text-block'>{{evidence.evidenceString}}</div>
+            </div>
+            <br />
+          {{/each}}
         </div>
       {{/if}}
-      {{#if details.location.organization}}
+
+      {{#if hasLocation}}
+        <h1 class='p-title'>
+          {{fa-icon 'location' fixedWidth=true}}
+          Location
+        </h1>
         <div>
-          <span class="p-key">Organization: </span>
-          <span class="p-value">{{details.location.organization}}</span>
+          <span class='p-key'>Country: </span>
+          <span class='p-value'>{{details.location.location.country}}</span>
+        </div>
+        {{#if details.location.location.city}}
+          <div>
+            <span class='p-key'>City: </span>
+            <span class='p-value'>{{details.location.location.city}}</span>
+          </div>
+        {{/if}}
+        {{#if details.location.organization}}
+          <div>
+            <span class='p-key'>Organization: </span>
+            <span class='p-value'>{{details.location.organization}}</span>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if hasSightings}}
+        <div>
+          <h1 class='p-title'>
+            {{fa-icon 'binoculars' fixedWidth=true}}
+            Sightings
+          </h1>
+          {{#each details.sightings as |sighting|}}
+            <div>
+              <span class='p-key'>Title</span>
+              <span class='p-value'>{{sighting.title}}</span>
+            </div>
+            <div>
+              <span class='p-key'>Source</span>
+              <span class='p-value'>{{sighting.source}}</span>
+            </div>
+            <a class='p-link' href='{{sighting.url}}'>View source</a>
+            <br />
+            <br />
+          {{/each}}
         </div>
       {{/if}}
     {{/if}}
 
-    {{#if hasSightings}}
-      <div>
-        <h1 class="p-title">
-          {{fa-icon "binoculars" fixedWidth=true}}
-          Sightings
-        </h1>
-        {{#each details.sightings as |sighting|}}
-          <div>
-            <span class="p-key">Title</span>
-            <span class="p-value">{{sighting.title}}</span>
+    {{#if (eq activeTab 'analystNotes')}}
+      {{#each details.analystNotes as |note|}}
+        <div class='analyst-notes'>
+          {{#if note.attributes.title}}
+            <div>
+              <span class='p-key'>Title: </span>
+              <span class='p-value'>{{note.attributes.title}}</span>
+            </div>
+          {{/if}}
+          {{#if note.attributes.published}}
+            <div>
+              <span class='p-key'>Published Date: </span>
+              <span class='p-value'>{{moment-format
+                  note.attributes.published
+                  'MM/DD/YYYY HH:mm:ss'
+                  timeZone=timezone
+                }}</span>
+            </div>
+          {{/if}}
+          {{#each note.attributes.authors as |author|}}
+            <div>
+              <span class='p-key'>Author: </span>
+              <span class='p-value'>{{author.name}}</span>
+            </div>
+          {{/each}}
+          <div class='scrollable-block'>
+            <table>
+              <tbody>
+                {{#if note.attributes.text}}
+                  <div>
+                    <pre class='p-value'>{{note.attributes.text}}</pre>
+                  </div>
+                {{/if}}
+              </tbody>
+            </table>
           </div>
-          <div>
-            <span class="p-key">Source</span>
-            <span class="p-value">{{sighting.source}}</span>
-          </div>
-          <a class="p-link" href="{{sighting.url}}">View source</a>
-          <br />
-          <br />
-        {{/each}}
-      </div>
+        </div>
+      {{/each}}
     {{/if}}
   {{else}}
-    No Results Found in {{block.name}} for this entity
+    No Results Found in
+    {{block.name}}
+    for this entity
   {{/if}}
 {{/if}}
