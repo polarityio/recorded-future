@@ -201,7 +201,7 @@ function doLookup (entities, options, callback) {
 const _lookupEntity = (entity, options, host, callback) => {
   let requestOptions = {
     qs: {
-      fields: ['risk', 'intelCard', 'sightings', 'analystnotes'].join(',')
+      fields: ['risk', 'intelCard', 'sightings', 'analystnotes']
     },
     headers: {
       'X-RFToken': options.apiKey,
@@ -220,13 +220,17 @@ const _lookupEntity = (entity, options, host, callback) => {
     requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
   } else if (entity.type === 'cve') {
     requestOptions.url = host + '/v2/vulnerability/' + entity.value;
+    requestOptions.qs.fields.push('cpe', 'cpe22uri', 'cvss', 'cvssv3');
   } else {
     callback({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
     return;
   }
 
+  requestOptions.qs.fields = requestOptions.qs.fields.join(',');
+
   requestWithDefaults(requestOptions, 200, (err, data) => {
-    Logger.trace({ data, err }, 'Lookup Data');
+    Logger.trace({ data, err }, 'Raw Request Result');
+
     const entityNotFound = err && err.statusCode === 404;
     const entityDoesNotHaveMinScore =
       (data && data.data && data.data.risk && (data.data.risk.score || data.data.risk.score === 0)
