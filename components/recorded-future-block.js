@@ -93,6 +93,9 @@ polarity.export = PolarityComponent.extend({
     changeTab: function (tabName) {
       this.set('activeTab', tabName);
     },
+    toggleNote: function(noteIndex){
+      this.toggleProperty(`details.analystNotes.${noteIndex}.__open`);
+    },
     retryLookup: function () {
       this.set('running', true);
       this.set('errorMessage', '');

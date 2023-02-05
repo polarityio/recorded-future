@@ -172,41 +172,36 @@
     {{/if}}
 
     {{#if (eq activeTab "analystNotes")}}
-      {{#each details.analystNotes as |note|}}
-        <div class="analyst-notes">
-          {{#if note.attributes.title}}
-            <div>
-              <span class="p-key">Title: </span>
-              <span class="p-value">{{note.attributes.title}}</span>
-            </div>
-          {{/if}}
-          {{#if note.attributes.published}}
-            <div>
-              <span class="p-key">Published Date: </span>
-              <span class="p-value">{{moment-format
-                  note.attributes.published
-                  "MM/DD/YYYY HH:mm:ss"
-                  timeZone=timezone
-                }}</span>
-            </div>
-          {{/if}}
-          {{#each note.attributes.authors as |author|}}
-            <div>
-              <span class="p-key">Author: </span>
-              <span class="p-value">{{author.name}}</span>
-            </div>
-          {{/each}}
-          <div class="scrollable-block">
-            <table>
-              <tbody>
-                {{#if note.attributes.text}}
-                  <div>
-                    <pre class="p-value">{{note.attributes.text}}</pre>
-                  </div>
-                {{/if}}
-              </tbody>
-            </table>
+      {{#each details.analystNotes as |note index|}}
+        <div class="analyst-note">
+          <div {{action "toggleNote" index}} class="analyst-note-header {{if note.__open "note-open" "note-closed"}}">
+            {{#if note.attributes.title}}
+              <h1 class="p-title mt-0">{{note.attributes.title}}</h1>
+            {{/if}}
+            {{#if note.attributes.published}}
+              <div>
+                <span class="p-key">Published: </span>
+                <span class="p-value">{{moment-format
+                    note.attributes.published
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone
+                  }}</span>
+              </div>
+            {{/if}}
+            {{#each note.attributes.authors as |author|}}
+              <div>
+                <span class="p-key">Author: </span>
+                <span class="p-value">{{author.name}}</span>
+              </div>
+            {{/each}}
           </div>
+          {{#if note.__open}}
+            <div class="scrollable-block analyst-note-text">
+              {{#if note.attributes.text}}
+                <div class="preserve-whitespace p-block">{{note.attributes.text}}</div>
+              {{/if}}
+            </div>
+          {{/if}}
         </div>
       {{/each}}
     {{/if}}

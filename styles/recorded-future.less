@@ -11,17 +11,13 @@ div.link-container {
   flex: 0 0 75px;
 }
 
-pre {
-  margin: 3px 0px;
-  padding: 5px;
-  background-color: #dedede;
+.preserve-whitespace {
+  margin: 0px;
+  background-color: #fff;
   white-space: pre-wrap;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 200px;
 }
 
-.external-link{
+.external-link {
   font-size: 8px;
   margin-bottom: 1px;
 }
@@ -46,21 +42,39 @@ pre {
   font-size: 9px;
 }
 
-.analyst-notes {
+.analyst-note {
   margin-top: 10px;
   font-size: 13px;
-  border: 1px;
-  border-style: solid;
-  border-color: #dedede;
-  padding: 5px;
+  border: 1px solid #dedede;
+  border-bottom: 2px solid #dedede;
+  border-radius: 4px;
+
+  .analyst-note-header {
+    background-color: #f8f8f8;
+    padding: 5px;
+
+    &:hover {
+      background-color: darken(#f8f8f8, 5%);
+    }
+
+    &.note-open {
+      border-bottom: 1px solid #dedede;
+    }
+
+    &.note-closed {
+      border-bottom: 0px;
+    }
+  }
+
+  .analyst-note-text {
+    padding: 5px;
+  }
 }
 
 .scrollable-block {
   overflow-y: auto;
-  max-height: 200px;
+  max-height: 250px;
   width: 100%;
-  margin-top: 2%;
-  font-size: 7px;
 
   &.padded {
     padding: 5px;
