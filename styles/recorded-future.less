@@ -2,10 +2,6 @@ div.link-container {
   margin-bottom: 5px;
 }
 
-.text-block {
-  word-break: break-word;
-}
-
 .tic-gauge-container {
   max-height: 100px;
   flex: 0 0 75px;
@@ -42,14 +38,18 @@ div.link-container {
   font-size: 9px;
 }
 
-.analyst-note {
+.content-block {
   margin-top: 10px;
   font-size: 13px;
   border: 1px solid #dedede;
   border-bottom: 2px solid #dedede;
   border-radius: 4px;
 
-  .analyst-note-header {
+  &.no-header{
+    padding: 5px;
+  }
+
+  .content-block-header {
     background-color: #f8f8f8;
     padding: 5px;
 
@@ -57,16 +57,16 @@ div.link-container {
       background-color: darken(#f8f8f8, 5%);
     }
 
-    &.note-open {
+    &.content-open {
       border-bottom: 1px solid #dedede;
     }
 
-    &.note-closed {
+    &.content-closed {
       border-bottom: 0px;
     }
   }
 
-  .analyst-note-text {
+  .content-text {
     padding: 5px;
   }
 }

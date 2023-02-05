@@ -83,7 +83,7 @@ polarity.export = PolarityComponent.extend({
     }
     return false;
   }),
-  hasSighting: Ember.computed('block.data.details.sightings', function () {
+  hasSightings: Ember.computed('block.data.details.sightings', function () {
     return !!this.get('block.data.details.sightings');
   }),
   hasLink: Ember.computed('block.data.details.intelCard', function () {
@@ -95,6 +95,9 @@ polarity.export = PolarityComponent.extend({
     },
     toggleNote: function(noteIndex){
       this.toggleProperty(`details.analystNotes.${noteIndex}.__open`);
+    },
+    toggleEvidence: function(evidenceIndex){
+      this.toggleProperty(`details.risk.evidenceDetails.${evidenceIndex}.__open`);
     },
     retryLookup: function () {
       this.set('running', true);
