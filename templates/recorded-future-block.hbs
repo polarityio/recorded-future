@@ -40,7 +40,18 @@
                 class="nav-link {{if (eq activeTab "analystNotes") "active"}}"
                 href="#"
         >
-          Analyst Notes ({{details.analystNotes.length}})
+          Notes ({{details.analystNotes.length}})
+        </a>
+      </li>
+    {{/if}}
+    {{#if (gt details.sightings.length 0)}}
+      <li class="nav-item">
+        <a
+          {{action "changeTab" "sightings"}}
+                class="nav-link {{if (eq activeTab "sightings") "active"}}"
+                href="#"
+        >
+          Sightings ({{details.sightings.length}})
         </a>
       </li>
     {{/if}}
@@ -138,16 +149,105 @@
         {{/if}}
       {{/if}}
 
+      {{#if details.cvssv3}}
+        <div>
+          <h1 class="p-title">{{fa-icon icon="star" fixedWidth=true}} CVSS v3.1</h1>
+          <div>
+            <span class="p-key">Scope:</span>
+            <span class="p-value">{{details.cvssv3.scope}}</span>
+          </div>
+          {{#if details.cvssv3.baseScore}}
+            <div>
+              <span class="p-key">Base Score:</span>
+              <span class="p-value">{{details.cvssv3.baseScore}}</span>
+            </div>
+            <div>
+              <span class="p-key">Base Severity:</span>
+              <span class="p-value">{{details.cvssv3.baseSeverity}}</span>
+            </div>
+          {{/if}}
+          <div>
+            <span class="p-key">Exploitability Score:</span>
+            <span class="p-value">{{details.cvssv3.exploitabilityScore}}</span>
+          </div>
+          <div>
+            <span class="p-key">Privileges Required:</span>
+            <span class="p-value">{{details.cvssv3.privilegesRequired}}</span>
+          </div>
+          <div>
+            <span class="p-key">User Interaction:</span>
+            <span class="p-value">{{details.cvssv3.userInteraction}}</span>
+          </div>
+          {{#if details.cvss.authentication}}
+            <div>
+              <span class="p-key">Authentication:</span>
+              <span class="p-value">{{details.cvss.authentication}}</span>
+            </div>
+          {{/if}}
+          <div>
+            <span class="p-key">Vector:</span>
+            <span class="p-value">{{details.cvssv3.vectorString}}</span>
+          </div>
+          <div>
+            <span class="p-key">Attack Vector:</span>
+            <span class="p-value">{{details.cvssv3.attackVector}}</span>
+          </div>
+          <div>
+            <span class="p-key">Impact Score:</span>
+            <span class="p-value">{{details.cvssv3.impactScore}}</span>
+          </div>
+          <div>
+            <span class="p-key">Attack Complexity:</span>
+            <span class="p-value">{{details.cvssv3.attackComplexity}}</span>
+          </div>
+          <div>
+            <span class="p-key">Confidentiality Impact:</span>
+            <span class="p-value">{{details.cvssv3.confidentialityImpact}}</span>
+          </div>
+          <div>
+            <span class="p-key">Integrity Impact:</span>
+            <span class="p-value">{{details.cvssv3.integrityImpact}}</span>
+          </div>
+          <div>
+            <span class="p-key">Availability Impact:</span>
+            <span class="p-value">{{details.cvssv3.availabilityImpact: }}</span>
+          </div>
+          <div>
+            <span class="p-key">Created:</span>
+            <span class="p-value">{{moment-format
+                    details.cvssv3.created
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone}}
+            </span>
+          </div>
+          <div>
+            <span class="p-key">Modified:</span>
+            <span class="p-value">{{moment-format
+                    details.cvssv3.modified
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone}}
+            </span>
+          </div>
+        </div>
+      {{/if}}
+
       {{#if (gt details.risk.evidenceDetails.length 0)}}
         <div>
           <h1 class="p-title">
-            {{fa-icon "info-circle" fixedWidth=true}}
+            {{fa-icon "exclamation-triangle" fixedWidth=true}}
             Risk Evidence ({{details.risk.evidenceDetails.length}})
           </h1>
           {{#each details.risk.evidenceDetails as |evidence index|}}
             <div class="content-block">
               <div {{action "toggleEvidence" index}} class="content-block-header {{if evidence.__open "content-open" "content-closed"}}">
                 <h1 class="p-title mt-0">{{evidence.rule}}</h1>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="p-key">Criticality:</span>
+                    <span class="p-value">{{evidence.criticalityLabel}}</span>
+                  </div>
+                  <div class="p-footnote">{{moment-format evidence.timestamp "MM/DD/YYYY" timeZone=timeZone}}</div>
+                </div>
               </div>
               {{#if evidence.__open}}
                 <div class="content-text p-block">
@@ -158,30 +258,31 @@
           {{/each}}
         </div>
       {{/if}}
+    {{/if}}
 
-      {{#if hasSightings}}
-        <div>
-          <h1 class="p-title">
-            {{fa-icon "binoculars" fixedWidth=true}}
-            Sightings ({{details.sightings.length}})
-          </h1>
-          {{#each details.sightings as |sighting|}}
-            <div class="content-block no-header">
-              <h1 class="p-title mt-0">{{sighting.title}}</h1>
-              <div>
-                <span class="p-key">Source:</span>
-                <span class="p-value">{{sighting.source}}</span>
-              </div>
-              <a class="p-link" href="{{sighting.url}}">View source {{fa-icon icon="external-link-square"
-                                                                              fixedWidth=true
-                                                                              class="external-link"}}</a>
+    {{#if (eq activeTab "sightings")}}
+      <div>
+        <h1 class="p-title">
+          {{fa-icon "binoculars" fixedWidth=true}}
+          Sightings ({{details.sightings.length}})
+        </h1>
+        {{#each details.sightings as |sighting|}}
+          <div class="content-block no-header">
+            <h1 class="p-title mt-0">{{sighting.title}}</h1>
+            <div>
+              <span class="p-key">Source:</span>
+              <span class="p-value">{{sighting.source}}</span>
             </div>
-          {{/each}}
-        </div>
-      {{/if}}
+            <a class="p-link" href="{{sighting.url}}">View source {{fa-icon icon="external-link-square"
+                                                                            fixedWidth=true
+                                                                            class="external-link"}}</a>
+          </div>
+        {{/each}}
+      </div>
     {{/if}}
 
     {{#if (eq activeTab "analystNotes")}}
+      <h1 class="p-title">{{fa-icon icon="sticky-note" fixedWidth=true}} Analyst Notes</h1>
       {{#each details.analystNotes as |note index|}}
         <div class="content-block">
           <div {{action "toggleNote" index}} class="content-block-header {{if note.__open "content-open" "content-closed"}}">

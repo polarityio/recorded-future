@@ -225,7 +225,7 @@ const _lookupEntity = (entity, options, host, callback) => {
     requestOptions.url = host + '/v2/url/' + encodeURIComponent(entity.value);
   } else if (entity.type === 'cve') {
     requestOptions.url = host + '/v2/vulnerability/' + entity.value;
-    requestOptions.qs.fields.push('cpe', 'cpe22uri', 'cvss', 'cvssv3');
+    requestOptions.qs.fields.push('cvssv3');
   } else {
     callback({ detail: 'Unknown entity type received', err: new Error('unknown entity type') });
     return;
