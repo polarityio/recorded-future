@@ -1,44 +1,44 @@
 {{#if details.errorMessage}}
   {{#if (not (eq details.allowRetry false))}}
-    <button type='button' class='p-btn btn btn-sm btn-polarity retry-btn' {{action 'retryLookup'}}>
+    <button type="button" class="p-btn btn btn-sm btn-polarity retry-btn" {{action "retryLookup"}}>
       {{#if running}}
-        {{fa-icon icon='spinner-third' fixedWidth=true spin=true}}
+        {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
       {{else}}
         Retry Search
       {{/if}}
     </button>
   {{/if}}
-  <div class='error-container'>
+  <div class="error-container">
     {{details.errorMessage}}
   </div>
   {{#if (not (eq details.allowRetry false))}}
-    <div class='mt-1'>
-      <a class='p-link' href='{{searchLink}}'>Run Search via Recorded Future Web Interface
-        {{fa-icon 'external-link-square' class='external-link-icon'}}</a>
+    <div class="mt-1">
+      <a class="p-link" href="{{searchLink}}">Run Search via Recorded Future Web Interface
+        {{fa-icon "external-link-square" class="external-link-icon"}}</a>
     </div>
     <div>
-      <span class='p-footnote'>Use the link to run this search via the Recorded Future website.</span>
+      <span class="p-footnote">Use the link to run this search via the Recorded Future website.</span>
     </div>
   {{/if}}
 {{else}}
-  <ul class='nav nav-tabs'>
+  <ul class="nav nav-tabs">
     {{#if details}}
-      <li class='nav-item'>
+      <li class="nav-item">
         <a
-          {{action 'changeTab' 'info'}}
-          class='nav-link {{if (or (eq activeTab "info") (not activeTab)) "active"}}'
-          href='#'
+          {{action "changeTab" "info"}}
+          class="nav-link {{if (or (eq activeTab "info") (not activeTab)) "active"}}"
+          href="#"
         >
           Info
         </a>
       </li>
     {{/if}}
     {{#if details.analystNotes.length}}
-      <li class='nav-item'>
+      <li class="nav-item">
         <a
-          {{action 'changeTab' 'analystNotes'}}
-          class='nav-link {{if (eq activeTab "analystNotes") "active"}}'
-          href='#'
+          {{action "changeTab" "analystNotes"}}
+          class="nav-link {{if (eq activeTab "analystNotes") "active"}}"
+          href="#"
         >
           Analyst Notes
         </a>
@@ -47,45 +47,45 @@
   </ul>
 
   {{#if details}}
-    {{#if (eq activeTab 'info')}}
+    {{#if (eq activeTab "info")}}
       {{#if hasLink}}
-        <div class='link-container mt-2'>
-          <a class='p-link' href='{{details.intelCard}}'>View in Recorded Future {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+        <div class="link-container mt-2">
+          <a class="p-link" href="{{details.intelCard}}">View in Recorded Future {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
         </div>
       {{/if}}
-      <div class='indicator d-flex'>
-        <div class='tic-gauge-container'>
-          <svg x='0' y='0' width='100%' height='100%' viewBox='0 0 55 50'>
-            <g transform='translate(28,25)'>
+      <div class="indicator d-flex">
+        <div class="tic-gauge-container">
+          <svg x="0" y="0" width="100%" height="100%" viewBox="0 0 55 50">
+            <g transform="translate(28,25)">
               <g>
                 <circle
-                  r='{{elementRadius}}'
-                  stroke='#eee'
-                  transform='rotate(-90)'
-                  fill='#fff'
-                  stroke-width='{{elementStrokeWidth}}'
-                  cx='0'
-                  cy='0'
+                  r="{{elementRadius}}"
+                  stroke="#eee"
+                  transform="rotate(-90)"
+                  fill="#fff"
+                  stroke-width="{{elementStrokeWidth}}"
+                  cx="0"
+                  cy="0"
                 ></circle>
                 {{! this is the inner circle }}
                 {{! stroke=<color> is the inner circle color }}
                 <circle
-                  stroke-dasharray='{{elementCircumference}}'
-                  r='{{elementRadius}}'
-                  stroke='{{elementColor}}'
-                  transform='rotate(-90)'
-                  fill='none'
-                  stroke-dashoffset='{{elementStrokeOffset}}'
-                  stroke-width='{{elementStrokeWidth}}'
-                  cx='0'
-                  cy='0'
+                  stroke-dasharray="{{elementCircumference}}"
+                  r="{{elementRadius}}"
+                  stroke="{{elementColor}}"
+                  transform="rotate(-90)"
+                  fill="none"
+                  stroke-dashoffset="{{elementStrokeOffset}}"
+                  stroke-width="{{elementStrokeWidth}}"
+                  cx="0"
+                  cy="0"
                 ></circle>
                 <text
-                  text-anchor='middle'
-                  x='0'
-                  y='5'
-                  fill='{{elementColor}}'
-                  font-size='13'
+                  text-anchor="middle"
+                  x="0"
+                  y="5"
+                  fill="{{elementColor}}"
+                  font-size="13"
                 >{{details.risk.score}}</text>
               </g>
             </g>
@@ -93,16 +93,16 @@
         </div>
         <div class="ml-2 mt-2">
           <div>
-            <span class='p-key'>Criticality: </span>
-            <span class='p-value'>{{details.risk.criticalityLabel}}</span>
+            <span class="p-key">Criticality: </span>
+            <span class="p-value">{{details.risk.criticalityLabel}}</span>
           </div>
           <div>
-            <span class='p-key'>Rules Summary: </span>
-            <span class='p-block'>{{details.risk.riskSummary}}</span>
+            <span class="p-key">Rules Summary: </span>
+            <span class="p-block">{{details.risk.riskSummary}}</span>
           </div>
           <div>
-            <span class='p-key'>Score: </span>
-            <span class='p-value'>{{details.risk.score}}</span>
+            <span class="p-key">Score: </span>
+            <span class="p-value">{{details.risk.score}}</span>
           </div>
         </div>
       </div>
@@ -111,14 +111,14 @@
 
       {{#if (gt details.risk.evidenceDetails.length 0)}}
         <div>
-          <h1 class='p-title'>
-            {{fa-icon 'info-circle' fixedWidth=true}}
+          <h1 class="p-title">
+            {{fa-icon "info-circle" fixedWidth=true}}
             Risk Details
           </h1>
           {{#each details.risk.evidenceDetails as |evidence|}}
             <div>
-              <div class='p-key'>{{evidence.rule}}</div>
-              <div class='p-value text-block'>{{evidence.evidenceString}}</div>
+              <div class="p-key">{{evidence.rule}}</div>
+              <div class="p-value text-block">{{evidence.evidenceString}}</div>
             </div>
             <br />
           {{/each}}
@@ -126,44 +126,44 @@
       {{/if}}
 
       {{#if hasLocation}}
-        <h1 class='p-title'>
-          {{fa-icon 'location' fixedWidth=true}}
+        <h1 class="p-title">
+          {{fa-icon "location" fixedWidth=true}}
           Location
         </h1>
         <div>
-          <span class='p-key'>Country: </span>
-          <span class='p-value'>{{details.location.location.country}}</span>
+          <span class="p-key">Country: </span>
+          <span class="p-value">{{details.location.location.country}}</span>
         </div>
         {{#if details.location.location.city}}
           <div>
-            <span class='p-key'>City: </span>
-            <span class='p-value'>{{details.location.location.city}}</span>
+            <span class="p-key">City: </span>
+            <span class="p-value">{{details.location.location.city}}</span>
           </div>
         {{/if}}
         {{#if details.location.organization}}
           <div>
-            <span class='p-key'>Organization: </span>
-            <span class='p-value'>{{details.location.organization}}</span>
+            <span class="p-key">Organization: </span>
+            <span class="p-value">{{details.location.organization}}</span>
           </div>
         {{/if}}
       {{/if}}
 
       {{#if hasSightings}}
         <div>
-          <h1 class='p-title'>
-            {{fa-icon 'binoculars' fixedWidth=true}}
+          <h1 class="p-title">
+            {{fa-icon "binoculars" fixedWidth=true}}
             Sightings
           </h1>
           {{#each details.sightings as |sighting|}}
             <div>
-              <span class='p-key'>Title</span>
-              <span class='p-value'>{{sighting.title}}</span>
+              <span class="p-key">Title</span>
+              <span class="p-value">{{sighting.title}}</span>
             </div>
             <div>
-              <span class='p-key'>Source</span>
-              <span class='p-value'>{{sighting.source}}</span>
+              <span class="p-key">Source</span>
+              <span class="p-value">{{sighting.source}}</span>
             </div>
-            <a class='p-link' href='{{sighting.url}}'>View source</a>
+            <a class="p-link" href="{{sighting.url}}">View source</a>
             <br />
             <br />
           {{/each}}
@@ -171,37 +171,37 @@
       {{/if}}
     {{/if}}
 
-    {{#if (eq activeTab 'analystNotes')}}
+    {{#if (eq activeTab "analystNotes")}}
       {{#each details.analystNotes as |note|}}
-        <div class='analyst-notes'>
+        <div class="analyst-notes">
           {{#if note.attributes.title}}
             <div>
-              <span class='p-key'>Title: </span>
-              <span class='p-value'>{{note.attributes.title}}</span>
+              <span class="p-key">Title: </span>
+              <span class="p-value">{{note.attributes.title}}</span>
             </div>
           {{/if}}
           {{#if note.attributes.published}}
             <div>
-              <span class='p-key'>Published Date: </span>
-              <span class='p-value'>{{moment-format
+              <span class="p-key">Published Date: </span>
+              <span class="p-value">{{moment-format
                   note.attributes.published
-                  'MM/DD/YYYY HH:mm:ss'
+                  "MM/DD/YYYY HH:mm:ss"
                   timeZone=timezone
                 }}</span>
             </div>
           {{/if}}
           {{#each note.attributes.authors as |author|}}
             <div>
-              <span class='p-key'>Author: </span>
-              <span class='p-value'>{{author.name}}</span>
+              <span class="p-key">Author: </span>
+              <span class="p-value">{{author.name}}</span>
             </div>
           {{/each}}
-          <div class='scrollable-block'>
+          <div class="scrollable-block">
             <table>
               <tbody>
                 {{#if note.attributes.text}}
                   <div>
-                    <pre class='p-value'>{{note.attributes.text}}</pre>
+                    <pre class="p-value">{{note.attributes.text}}</pre>
                   </div>
                 {{/if}}
               </tbody>
