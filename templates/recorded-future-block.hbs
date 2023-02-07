@@ -282,7 +282,11 @@
     {{/if}}
 
     {{#if (eq activeTab "analystNotes")}}
-      <h1 class="p-title">{{fa-icon icon="sticky-note" fixedWidth=true}} Analyst Notes</h1>
+      <h1 class="p-title">{{fa-icon icon="sticky-note" fixedWidth=true}} Analyst Notes
+        {{#if details.analystNotesTotalCount}}
+          <span class="p-footnote">(showing first 20 out of {{details.analystNotesTotalCount}})</span>
+        {{/if}}
+      </h1>
       {{#each details.analystNotes as |note index|}}
         <div class="content-block">
           <div {{action "toggleNote" index}} class="content-block-header {{if note.__open "content-open" "content-closed"}}">

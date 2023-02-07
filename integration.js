@@ -288,12 +288,10 @@ const _lookupEntity = (entity, options, host, callback) => {
 
     let risk = data.data.risk;
 
-    if (data && data.data && data.data.analystNotes.length > MAX_NOTES) {
+    // limit the displayed analyst notes to 20
+    if(data && data.data && data.data.analystNotes.length > MAX_NOTES){
+      data.data.analystNotesTotalCount = data.data.analystNotes.length;
       data.data.analystNotes = data.data.analystNotes.slice(0, MAX_NOTES);
-
-      Object.defineProperty(data.data, 'analystNotes', {
-        value: data.data.analystNotes
-      });
     }
 
     callback(null, {
