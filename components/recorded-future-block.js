@@ -1,10 +1,13 @@
 polarity.export = PolarityComponent.extend({
   details: Ember.computed.alias('block.data.details'),
   summary: Ember.computed.alias('block.data.summary'),
-
+  activeTab: 'info',
   redThreat: '#fa5843',
   greenThreat: '#7dd21b',
   yellowThreat: '#ffc15d',
+  timezone: Ember.computed('Intl', function () {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }),
   /**
    * Radius of the ticScore circle
    */
@@ -29,11 +32,11 @@ polarity.export = PolarityComponent.extend({
   elementCircumference: Ember.computed('elementRadius', function () {
     return 2 * Math.PI * this.get('elementRadius');
   }),
-  _getStrokeOffset(ticScore, circumference) {
+  _getStrokeOffset (ticScore, circumference) {
     let progress = ticScore / 100;
     return circumference * (1 - progress);
   },
-  _getThreatColor(ticScore) {
+  _getThreatColor (ticScore) {
     if (ticScore >= 75) {
       return this.get('redThreat');
     } else if (ticScore >= 50) {
@@ -42,27 +45,27 @@ polarity.export = PolarityComponent.extend({
       return this.get('greenThreat');
     }
   },
-  searchLink: Ember.computed('block.entity.value','block.entity.type', function(){
+  searchLink: Ember.computed('block.entity.value', 'block.entity.type', function () {
     const type = this.get('block.entity.type');
     const value = this.get('block.entity.value');
-    switch(type){
+    switch (type) {
       case 'IPv4':
-        return `https://app.recordedfuture.com/live/sc/entity/ip%3A${value}`
+        return `https://app.recordedfuture.com/live/sc/entity/ip%3A${value}`;
         break;
       case 'url':
-        return `https://app.recordedfuture.com/live/sc/entity`
+        return `https://app.recordedfuture.com/live/sc/entity`;
         break;
       case 'domain':
-        return `https://app.recordedfuture.com/live/sc/entity/idn%3A${value.toLowerCase()}`
+        return `https://app.recordedfuture.com/live/sc/entity/idn%3A${value.toLowerCase()}`;
         break;
       case 'hash':
-        return `https://app.recordedfuture.com/live/sc/entity/hash%3A${value.toLowerCase()}`
+        return `https://app.recordedfuture.com/live/sc/entity/hash%3A${value.toLowerCase()}`;
         break;
       case 'cve':
-        return 'https://app.recordedfuture.com/live/sc/entity'
+        return 'https://app.recordedfuture.com/live/sc/entity';
         break;
       default:
-        return 'https://app.recordedfuture.com/live/sc/entity'
+        return 'https://app.recordedfuture.com/live/sc/entity';
     }
   }),
   hasLocation: Ember.computed('block.data.details', function () {
@@ -80,20 +83,31 @@ polarity.export = PolarityComponent.extend({
     }
     return false;
   }),
-  hasSighting: Ember.computed('block.data.details.sightings', function () {
+  hasSightings: Ember.computed('block.data.details.sightings', function () {
     return !!this.get('block.data.details.sightings');
   }),
   hasLink: Ember.computed('block.data.details.intelCard', function () {
     return !!this.get('block.data.details.intelCard');
   }),
   actions: {
+    changeTab: function (tabName) {
+      this.set('activeTab', tabName);
+    },
+    toggleNote: function(noteIndex){
+      this.toggleProperty(`details.analystNotes.${noteIndex}.__open`);
+    },
+    toggleEvidence: function(evidenceIndex){
+      this.toggleProperty(`details.risk.evidenceDetails.${evidenceIndex}.__open`);
+    },
     retryLookup: function () {
       this.set('running', true);
       this.set('errorMessage', '');
+
       const payload = {
         action: 'RETRY_LOOKUP',
         entity: this.get('block.entity')
       };
+
       this.sendIntegrationMessage(payload)
         .then((result) => {
           if (result.data.summary) this.set('summary', result.summary);

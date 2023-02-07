@@ -1,146 +1,334 @@
 {{#if details.errorMessage}}
   {{#if (not (eq details.allowRetry false))}}
-      <button type="button" class="p-btn btn btn-sm btn-polarity retry-btn" {{action "retryLookup"}}>
-          {{#if running}}
-              {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
-          {{else}}
-              Retry Search
-          {{/if}}
-      </button>
+    <button type="button" class="p-btn btn btn-sm btn-polarity retry-btn" {{action "retryLookup"}}>
+      {{#if running}}
+        {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
+      {{else}}
+        Retry Search
+      {{/if}}
+    </button>
   {{/if}}
   <div class="error-container">
-      {{details.errorMessage}}
+    {{details.errorMessage}}
   </div>
   {{#if (not (eq details.allowRetry false))}}
-      <div class="mt-1">
-          <a class="p-link" href="{{searchLink}}">Run Search via Recorded Future Web Interface {{fa-icon "external-link-square" class="external-link-icon"}}</a>
-      </div>
-      <div>
-          <span class="p-footnote">Use the link to run this search via the Recorded Future website.</span>
-      </div>
+    <div class="mt-1">
+      <a class="p-link" href="{{searchLink}}">Run Search via Recorded Future Web Interface
+        {{fa-icon "external-link-square" class="external-link-icon"}}</a>
+    </div>
+    <div>
+      <span class="p-footnote">Use the link to run this search via the Recorded Future website.</span>
+    </div>
   {{/if}}
 {{else}}
+  <ul class="nav nav-tabs">
+    {{#if details}}
+      <li class="nav-item">
+        <a
+          {{action "changeTab" "info"}}
+                class="nav-link {{if (or (eq activeTab "info") (not activeTab)) "active"}}"
+                href="#"
+        >
+          Info
+        </a>
+      </li>
+    {{/if}}
+    {{#if details.analystNotes.length}}
+      <li class="nav-item">
+        <a
+          {{action "changeTab" "analystNotes"}}
+                class="nav-link {{if (eq activeTab "analystNotes") "active"}}"
+                href="#"
+        >
+          Notes ({{details.analystNotes.length}})
+        </a>
+      </li>
+    {{/if}}
+    {{#if (gt details.sightings.length 0)}}
+      <li class="nav-item">
+        <a
+          {{action "changeTab" "sightings"}}
+                class="nav-link {{if (eq activeTab "sightings") "active"}}"
+                href="#"
+        >
+          Sightings ({{details.sightings.length}})
+        </a>
+      </li>
+    {{/if}}
+  </ul>
+
   {{#if details}}
-    {{#if hasLink}}
-      <div class="link-container">
-        <a class="p-link" href="{{details.intelCard}}">View in Recorded Future</a>
-      </div>
-    {{/if}}
-
-    <div class="indicator">
-      <div class="tic-gauge-container">
-        <svg x="0" y="0" width="30%" height="30%" viewBox="0 0 55 50">
-          <g transform="translate(28,25)">
-            <g>
-              <circle
-                r="{{elementRadius}}"
-                stroke="#eee"
-                transform="rotate(-90)"
-                fill="#fff"
-                stroke-width="{{elementStrokeWidth}}"
-                cx="0"
-                cy="0"
-              ></circle>
-              {{! this is the inner circle }}
-              {{! stroke=<color> is the inner circle color }}
-              <circle
-                stroke-dasharray="{{elementCircumference}}"
-                r="{{elementRadius}}"
-                stroke="{{elementColor}}"
-                transform="rotate(-90)"
-                fill="none"
-                stroke-dashoffset="{{elementStrokeOffset}}"
-                stroke-width="{{elementStrokeWidth}}"
-                cx="0"
-                cy="0"
-              ></circle>
-              <text text-anchor="middle" x="0" y="5" fill="{{elementColor}}" font-size="13">{{details.risk.score}}</text>
+    {{#if (eq activeTab "info")}}
+      {{#if hasLink}}
+        <div class="link-container mt-2">
+          <a class="p-link" href="{{details.intelCard}}">View in Recorded Future {{fa-icon icon="external-link-square"
+                                                                                           fixedWidth=true
+                                                                                           class="external-link"}}</a>
+        </div>
+      {{/if}}
+      <div class="indicator d-flex">
+        <div class="tic-gauge-container">
+          <svg x="0" y="0" width="100%" height="100%" viewBox="0 0 55 50">
+            <g transform="translate(28,25)">
+              <g>
+                <circle
+                        r="{{elementRadius}}"
+                        stroke="#eee"
+                        transform="rotate(-90)"
+                        fill="#fff"
+                        stroke-width="{{elementStrokeWidth}}"
+                        cx="0"
+                        cy="0"
+                ></circle>
+                {{! this is the inner circle }}
+                {{! stroke=<color> is the inner circle color }}
+                <circle
+                        stroke-dasharray="{{elementCircumference}}"
+                        r="{{elementRadius}}"
+                        stroke="{{elementColor}}"
+                        transform="rotate(-90)"
+                        fill="none"
+                        stroke-dashoffset="{{elementStrokeOffset}}"
+                        stroke-width="{{elementStrokeWidth}}"
+                        cx="0"
+                        cy="0"
+                ></circle>
+                <text
+                        text-anchor="middle"
+                        x="0"
+                        y="5"
+                        fill="{{elementColor}}"
+                        font-size="13"
+                >{{details.risk.score}}</text>
+              </g>
             </g>
-          </g>
-        </svg>
-      </div>
-    </div>
-
-    <div>
-      <h1 class="p-title">
-        {{fa-icon "exclamation-triangle" fixedWidth=true}}
-        Risks
-      </h1>
-      <div>
-        <span class="p-key">Criticality: </span>
-        <span class="p-value">{{details.risk.criticalityLabel}}</span>
-      </div>
-      <div>
-        <span class="p-key">Rules Summary: </span>
-        <span class="p-value">{{details.risk.riskSummary}}</span>
-      </div>
-      <div>
-        <span class="p-key">Score: </span>
-        <span class="p-value">{{details.risk.score}}</span>
-      </div>
-    </div>
-
-    {{#if (gt details.risk.evidenceDetails.length 0)}}
-      <div>
-        <h1 class="p-title">
-          {{fa-icon "info-circle" fixedWidth=true}}
-          Risk Details
-        </h1>
-        {{#each details.risk.evidenceDetails as |evidence|}}
+          </svg>
+        </div>
+        <div class="ml-2 mt-1">
           <div>
-            <div class="p-key">{{evidence.rule}}</div>
-            <div class="p-value text-block">{{evidence.evidenceString}}</div>
+            <span class="p-key">Criticality: </span>
+            <span class="p-value">{{details.risk.criticalityLabel}}</span>
           </div>
-          <br />
-        {{/each}}
+          <div>
+            <span class="p-key">Rules: </span>
+            <span class="p-block">{{details.risk.riskSummary}}</span>
+          </div>
+          <div>
+            <span class="p-key">Score: </span>
+            <span class="p-value">{{details.risk.score}}</span>
+          </div>
+        </div>
       </div>
-    {{/if}}
 
-    {{#if hasLocation}}
-      <h1 class="p-title">
-        {{fa-icon "location" fixedWidth=true}}
-        Location
-      </h1>
-      <div>
-        <span class="p-key">Country: </span>
-        <span class="p-value">{{details.location.location.country}}</span>
-      </div>
-      {{#if details.location.location.city}}
+      {{#if hasLocation}}
+        <h1 class="p-title">
+          {{fa-icon "location" fixedWidth=true}}
+          Location
+        </h1>
         <div>
-          <span class="p-key">City: </span>
-          <span class="p-value">{{details.location.location.city}}</span>
+          <span class="p-key">Country: </span>
+          <span class="p-value">{{details.location.location.country}}</span>
+        </div>
+        {{#if details.location.location.city}}
+          <div>
+            <span class="p-key">City: </span>
+            <span class="p-value">{{details.location.location.city}}</span>
+          </div>
+        {{/if}}
+        {{#if details.location.organization}}
+          <div>
+            <span class="p-key">Organization: </span>
+            <span class="p-value">{{details.location.organization}}</span>
+          </div>
+        {{/if}}
+        {{#if details.location.asn}}
+          <div>
+            <span class="p-key">ASN: </span>
+            <span class="p-value">{{details.location.asn}}</span>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if details.cvssv3}}
+        <div>
+          <h1 class="p-title">{{fa-icon icon="star" fixedWidth=true}} CVSS v3.1</h1>
+          <div>
+            <span class="p-key">Scope:</span>
+            <span class="p-value">{{details.cvssv3.scope}}</span>
+          </div>
+          {{#if details.cvssv3.baseScore}}
+            <div>
+              <span class="p-key">Base Score:</span>
+              <span class="p-value">{{details.cvssv3.baseScore}}</span>
+            </div>
+            <div>
+              <span class="p-key">Base Severity:</span>
+              <span class="p-value">{{details.cvssv3.baseSeverity}}</span>
+            </div>
+          {{/if}}
+          <div>
+            <span class="p-key">Exploitability Score:</span>
+            <span class="p-value">{{details.cvssv3.exploitabilityScore}}</span>
+          </div>
+          <div>
+            <span class="p-key">Privileges Required:</span>
+            <span class="p-value">{{details.cvssv3.privilegesRequired}}</span>
+          </div>
+          <div>
+            <span class="p-key">User Interaction:</span>
+            <span class="p-value">{{details.cvssv3.userInteraction}}</span>
+          </div>
+          {{#if details.cvss.authentication}}
+            <div>
+              <span class="p-key">Authentication:</span>
+              <span class="p-value">{{details.cvss.authentication}}</span>
+            </div>
+          {{/if}}
+          <div>
+            <span class="p-key">Vector:</span>
+            <span class="p-value">{{details.cvssv3.vectorString}}</span>
+          </div>
+          <div>
+            <span class="p-key">Attack Vector:</span>
+            <span class="p-value">{{details.cvssv3.attackVector}}</span>
+          </div>
+          <div>
+            <span class="p-key">Impact Score:</span>
+            <span class="p-value">{{details.cvssv3.impactScore}}</span>
+          </div>
+          <div>
+            <span class="p-key">Attack Complexity:</span>
+            <span class="p-value">{{details.cvssv3.attackComplexity}}</span>
+          </div>
+          <div>
+            <span class="p-key">Confidentiality Impact:</span>
+            <span class="p-value">{{details.cvssv3.confidentialityImpact}}</span>
+          </div>
+          <div>
+            <span class="p-key">Integrity Impact:</span>
+            <span class="p-value">{{details.cvssv3.integrityImpact}}</span>
+          </div>
+          <div>
+            <span class="p-key">Availability Impact:</span>
+            <span class="p-value">{{details.cvssv3.availabilityImpact: }}</span>
+          </div>
+          <div>
+            <span class="p-key">Created:</span>
+            <span class="p-value">{{moment-format
+                    details.cvssv3.created
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone}}
+            </span>
+          </div>
+          <div>
+            <span class="p-key">Modified:</span>
+            <span class="p-value">{{moment-format
+                    details.cvssv3.modified
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone}}
+            </span>
+          </div>
         </div>
       {{/if}}
-      {{#if details.location.organization}}
+
+      {{#if (gt details.risk.evidenceDetails.length 0)}}
         <div>
-          <span class="p-key">Organization: </span>
-          <span class="p-value">{{details.location.organization}}</span>
+          <h1 class="p-title">
+            {{fa-icon "exclamation-triangle" fixedWidth=true}}
+            Risk Evidence ({{details.risk.evidenceDetails.length}})
+          </h1>
+          {{#each details.risk.evidenceDetails as |evidence index|}}
+            <div class="content-block">
+              <div {{action "toggleEvidence" index}} class="content-block-header {{if evidence.__open "content-open" "content-closed"}}">
+                <h1 class="p-title mt-0">{{evidence.rule}}</h1>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="p-key">Criticality:</span>
+                    <span class="p-value">{{evidence.criticalityLabel}}</span>
+                  </div>
+                  <div class="p-footnote">{{moment-format evidence.timestamp "MM/DD/YYYY" timeZone=timeZone}}</div>
+                </div>
+              </div>
+              {{#if evidence.__open}}
+                <div class="content-text p-block">
+                  {{evidence.evidenceString}}
+                </div>
+              {{/if}}
+            </div>
+          {{/each}}
         </div>
       {{/if}}
     {{/if}}
 
-    {{#if hasSightings}}
+    {{#if (eq activeTab "sightings")}}
       <div>
         <h1 class="p-title">
           {{fa-icon "binoculars" fixedWidth=true}}
-          Sightings
+          Sightings ({{details.sightings.length}})
         </h1>
         {{#each details.sightings as |sighting|}}
-          <div>
-            <span class="p-key">Title</span>
-            <span class="p-value">{{sighting.title}}</span>
+          <div class="content-block no-header">
+            <h1 class="p-title mt-0">{{sighting.title}}</h1>
+            <div>
+              <span class="p-key">Source:</span>
+              <span class="p-value">{{sighting.source}}</span>
+            </div>
+            <a class="p-link" href="{{sighting.url}}">View source {{fa-icon icon="external-link-square"
+                                                                            fixedWidth=true
+                                                                            class="external-link"}}</a>
           </div>
-          <div>
-            <span class="p-key">Source</span>
-            <span class="p-value">{{sighting.source}}</span>
-          </div>
-          <a class="p-link" href="{{sighting.url}}">View source</a>
-          <br />
-          <br />
         {{/each}}
       </div>
     {{/if}}
+
+    {{#if (eq activeTab "analystNotes")}}
+      <h1 class="p-title">{{fa-icon icon="sticky-note" fixedWidth=true}} Analyst Notes
+        {{#if (gt details.analystNotesTotalCount details.analystNotesMaxDisplayed)}}
+          <span class="p-footnote pl-1">(showing first {{details.analystNotesMaxDisplayed}} out of {{details.analystNotesTotalCount}})</span>
+        {{/if}}
+      </h1>
+      {{#each details.analystNotes as |note index|}}
+        <div class="content-block">
+          <div {{action "toggleNote" index}} class="content-block-header {{if note.__open "content-open" "content-closed"}}">
+            {{#if note.attributes.title}}
+              <h1 class="p-title mt-0">{{note.attributes.title}}</h1>
+            {{/if}}
+            {{#if note.attributes.published}}
+              <div>
+                <span class="p-key">Published: </span>
+                <span class="p-value">{{moment-format
+                        note.attributes.published
+                        "MM/DD/YYYY HH:mm:ss"
+                        timeZone=timezone
+                }}</span>
+              </div>
+            {{/if}}
+            {{#each note.attributes.authors as |author|}}
+              <div>
+                <span class="p-key">Author: </span>
+                <span class="p-value">{{author.name}}</span>
+              </div>
+            {{/each}}
+            {{#if note.source.name}}
+              <div>
+                <span class="p-key">Source:</span>
+                <span class="p-value">{{note.source.name}}</span>
+              </div>
+            {{/if}}
+          </div>
+          {{#if note.__open}}
+            <div class="scrollable-block content-text">
+              {{#if note.attributes.text}}
+                <div class="preserve-whitespace p-block">{{note.attributes.text}}</div>
+              {{/if}}
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
   {{else}}
-    No Results Found in {{block.name}} for this entity
+    No Results Found in
+    {{block.name}}
+    for this entity
   {{/if}}
 {{/if}}

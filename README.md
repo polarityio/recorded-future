@@ -2,7 +2,9 @@
 
 Polarity integration for searching Recorded Future for associated threat information.
 
-<img src="./assets/overlay.png" width="50%">
+| ![image](assets/cve-info.png) | ![image](assets/cve-notes.png) | ![image](assets/overlay.png)
+|---| --- | --- |
+|*CVE Information* | *View Analyst Notes* | *Indicator Information* |
 
 ## Recorded Future Integration Options
 

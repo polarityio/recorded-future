@@ -2,18 +2,20 @@ div.link-container {
   margin-bottom: 5px;
 }
 
-.text-block {
-  word-break: break-word;
+.tic-gauge-container {
+  max-height: 100px;
+  flex: 0 0 75px;
 }
 
-pre {
-  margin: 3px 0px;
-  padding: 5px;
-  background-color: #dedede;
+.preserve-whitespace {
+  margin: 0px;
+  background-color: #fff;
   white-space: pre-wrap;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 200px;
+}
+
+.external-link {
+  font-size: 8px;
+  margin-bottom: 1px;
 }
 
 .retry-btn {
@@ -32,6 +34,54 @@ pre {
   font-size: 13px;
 }
 
-.external-link-icon{
+.external-link-icon {
   font-size: 9px;
+}
+
+.content-block {
+  margin-top: 10px;
+  font-size: 13px;
+  border: 1px solid #dedede;
+  border-bottom: 2px solid #dedede;
+  border-radius: 4px;
+
+  &.no-header{
+    padding: 5px;
+  }
+
+  .content-block-header {
+    background-color: #f8f8f8;
+    padding: 5px;
+
+    &:hover {
+      background-color: darken(#f8f8f8, 5%);
+    }
+
+    &.content-open {
+      border-bottom: 1px solid #dedede;
+    }
+
+    &.content-closed {
+      border-bottom: 0px;
+    }
+  }
+
+  .content-text {
+    padding: 5px;
+  }
+}
+
+.scrollable-block {
+  overflow-y: auto;
+  max-height: 250px;
+  width: 100%;
+
+  &.padded {
+    padding: 5px;
+  }
+}
+
+.p-block {
+  word-wrap: break-word;
+  word-break: break-word;
 }
