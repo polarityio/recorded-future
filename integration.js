@@ -9,7 +9,7 @@ let requestWithDefaults;
 let limiter;
 
 const BASE_URL = 'https://api.recordedfuture.com';
-const MAX_NOTES = 10;
+const MAX_NOTES = 20;
 
 let domainBlockList = [];
 let previousDomainBlockListAsString = '';
@@ -290,6 +290,7 @@ const _lookupEntity = (entity, options, host, callback) => {
 
     // limit the displayed analyst notes to 20
     if(data && data.data && data.data.analystNotes.length > MAX_NOTES){
+      data.data.analystNotesMaxDisplayed = MAX_NOTES;
       data.data.analystNotesTotalCount = data.data.analystNotes.length;
       data.data.analystNotes = data.data.analystNotes.slice(0, MAX_NOTES);
     }

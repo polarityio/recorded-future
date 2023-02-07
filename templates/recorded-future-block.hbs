@@ -283,8 +283,8 @@
 
     {{#if (eq activeTab "analystNotes")}}
       <h1 class="p-title">{{fa-icon icon="sticky-note" fixedWidth=true}} Analyst Notes
-        {{#if details.analystNotesTotalCount}}
-          <span class="p-footnote">(showing first 20 out of {{details.analystNotesTotalCount}})</span>
+        {{#if (gt details.analystNotesTotalCount details.analystNotesMaxDisplayed)}}
+          <span class="p-footnote pl-1">(showing first {{details.analystNotesMaxDisplayed}} out of {{details.analystNotesTotalCount}})</span>
         {{/if}}
       </h1>
       {{#each details.analystNotes as |note index|}}
