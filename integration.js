@@ -3,13 +3,13 @@ const request = require('postman-request');
 const fs = require('fs');
 const _ = require('lodash');
 const Bottleneck = require('bottleneck');
-const { slice } = require('lodash');
 
 let Logger;
 let requestWithDefaults;
 let limiter;
 
 const BASE_URL = 'https://api.recordedfuture.com';
+const MAX_NOTES = 10;
 
 let domainBlockList = [];
 let previousDomainBlockListAsString = '';
@@ -142,6 +142,7 @@ function doLookup (entities, options, callback) {
         const statusCode = _.get(err, 'err.statusCode', '');
         const isGatewayTimeout = statusCode === 502 || statusCode === 504 || statusCode === 500;
         const isConnectionReset = _.get(err, 'err.error.code', '') === 'ECONNRESET';
+
         Logger.trace({ maxRequestQueueLimitHit, isGatewayTimeout, isConnectionReset }, 'Limiter');
         if (maxRequestQueueLimitHit || isConnectionReset || isGatewayTimeout) {
           // Tracking for logging purposes
@@ -287,12 +288,11 @@ const _lookupEntity = (entity, options, host, callback) => {
 
     let risk = data.data.risk;
 
-    // limit the displayed analyst notes to 10
-    if (data.data.analystNotes && data.data.analystNotes.length > 10) {
-      const limitedNotes = slice(data.data.analystNotes, 0, 10);
+    if (data && data.data && data.data.analystNotes.length > MAX_NOTES) {
+      data.data.analystNotes = data.data.analystNotes.slice(0, MAX_NOTES);
 
       Object.defineProperty(data.data, 'analystNotes', {
-        value: limitedNotes
+        value: data.data.analystNotes
       });
     }
 
