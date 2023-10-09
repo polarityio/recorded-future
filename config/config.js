@@ -23,7 +23,7 @@ module.exports = {
    * @optional
    */
   description: "Gain access to Recorded Future's relevant cyber threat insights in real time",
-  entityTypes: ['ipv4', 'hash', 'domain', 'url', 'cve'],
+  entityTypes: ['IPv4', 'hash', 'domain', 'url', 'cve'],
   defaultColor: 'light-pink',
   /**
    * An array of style files (css or less) that will be included for your integration. Any styles specified in
@@ -64,7 +64,7 @@ module.exports = {
     ca: '',
     // An HTTP proxy to be used. Supports proxy Auth with Basic Auth, identical to support for
     // the url parameter (by embedding the auth info in the uri)
-    proxy: ""
+    proxy: ''
   },
   logging: {
     // directory is relative to the this integrations directory
