@@ -3,17 +3,9 @@
   "name": "Recorded Future",
   "acronym": "RF",
   "description": "Gain access to Recorded Future's relevant cyber threat insights in real time",
-  "entityTypes": [
-    "IPv4",
-    "hash",
-    "domain",
-    "url",
-    "cve"
-  ],
+  "entityTypes": ["IPv4", "MD5", "SHA1", "SHA256", "domain", "url", "cve"],
   "defaultColor": "light-pink",
-  "styles": [
-    "./styles/recorded-future.less"
-  ],
+  "styles": ["./styles/recorded-future.less"],
   "block": {
     "component": {
       "file": "./components/recorded-future-block.js"
@@ -21,13 +13,6 @@
     "template": {
       "file": "./templates/recorded-future-block.hbs"
     }
-  },
-  "request": {
-    "cert": "",
-    "key": "",
-    "passphrase": "",
-    "ca": "",
-    "proxy": ""
   },
   "logging": {
     "level": "info"
