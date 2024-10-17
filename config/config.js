@@ -23,7 +23,7 @@ module.exports = {
    * @optional
    */
   description: "Gain access to Recorded Future's relevant cyber threat insights in real time",
-  entityTypes: ['IPv4', 'hash', 'domain', 'url', 'cve'],
+  entityTypes: ['IPv4', 'MD5', 'SHA1', 'SHA256', 'domain', 'url', 'cve'],
   defaultColor: 'light-pink',
   /**
    * An array of style files (css or less) that will be included for your integration. Any styles specified in
